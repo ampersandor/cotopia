@@ -2,8 +2,10 @@ package com.ampersandor.leettrack.repository;
 
 import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.model.Stat;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,12 @@ public class MemoryStatRepository implements StatRepository{
                         && stat.getDate().isAfter(from.minusDays(1)))
                 .toList();
     }
+
+    @Override
+    public List<Stat> findAll(){
+        return new ArrayList<>(store.values());
+    }
+
     public void clearStore(){
         store.clear();
     }

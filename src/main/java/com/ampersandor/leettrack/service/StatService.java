@@ -9,4 +9,6 @@ import java.util.List;
 public interface StatService {
     void updateStat(Member member);
     List<Stat> getStats(Member member, LocalDate startDate, LocalDate endDate);
+    List<Stat> getAll();
+
 }

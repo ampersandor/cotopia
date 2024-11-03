@@ -2,6 +2,7 @@ package com.ampersandor.leettrack.service;
 
 import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final StatService statService;
 
-
+    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository, StatService statService) {
         this.memberRepository = memberRepository;
         this.statService = statService;
@@ -19,8 +20,15 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Long join(Member member) {
         this.validateDuplicatedMember(member);
-        this.statService.updateStat(member);
         memberRepository.save(member);
+        try{
+            this.statService.updateStat(member);
+        }
+        catch (Exception e){
+            memberRepository.delete(member);
+            throw e;
+        }
+        System.out.println("stat updated");
         return member.getId();
     }
 

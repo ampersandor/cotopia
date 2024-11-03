@@ -10,6 +10,10 @@ public class Member {
         this.name = name;
         this.username = username;
     }
+    public Member(String name, String username) {
+        this.name = name;
+        this.username = username;
+    }
 
     public Long getId() {
         return id;
@@ -35,4 +39,12 @@ public class Member {
         this.username = username;
     }
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

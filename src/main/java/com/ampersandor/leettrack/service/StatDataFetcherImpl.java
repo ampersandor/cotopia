@@ -3,6 +3,7 @@ package com.ampersandor.leettrack.service;
 import com.ampersandor.leettrack.model.StatResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,7 @@ public class StatDataFetcherImpl implements StatDataFetcher{
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Autowired
     public StatDataFetcherImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }

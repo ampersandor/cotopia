@@ -1,6 +1,7 @@
 package com.ampersandor.leettrack.repository;
 
 import com.ampersandor.leettrack.model.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
@@ -17,15 +18,19 @@ public class MemoryMemberRepository implements MemberRepository{
         return member;
     }
 
+    public void delete(Member member){
+        store.remove(member.getId());
+    }
+
     @Override
     public Optional<Member> findById(Long id) {
         return Optional.ofNullable(store.get(id));
     }
 
     @Override
-    public Optional<Member> findByUsername(String lcId) {
+    public Optional<Member> findByUsername(String username) {
         return store.values().stream()
-                .filter(member -> member.getUsername().equals(lcId))
+                .filter(member -> member.getUsername().equals(username))
                 .findAny();
     }
 

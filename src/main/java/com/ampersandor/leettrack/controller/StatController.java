@@ -1,6 +1,5 @@
 package com.ampersandor.leettrack.controller;
 
-import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.model.Stat;
 import com.ampersandor.leettrack.service.MemberService;
 import com.ampersandor.leettrack.service.StatService;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/stats")

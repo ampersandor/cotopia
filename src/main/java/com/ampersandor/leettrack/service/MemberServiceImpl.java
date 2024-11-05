@@ -2,7 +2,6 @@ package com.ampersandor.leettrack.service;
 
 import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +10,6 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final StatService statService;
 
-    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository, StatService statService) {
         this.memberRepository = memberRepository;
         this.statService = statService;

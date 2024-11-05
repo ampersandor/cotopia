@@ -2,7 +2,6 @@ package com.ampersandor.leettrack.repository;
 
 import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.model.Stat;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

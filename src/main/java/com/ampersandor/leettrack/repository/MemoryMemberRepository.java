@@ -1,7 +1,6 @@
 package com.ampersandor.leettrack.repository;
 
 import com.ampersandor.leettrack.model.Member;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 

@@ -4,10 +4,12 @@ import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.model.Stat;
 import com.ampersandor.leettrack.model.StatResponse;
 import com.ampersandor.leettrack.repository.StatRepository;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional
 public class StatServiceImpl implements StatService {
 
     private final StatRepository statRepository;
@@ -26,10 +28,6 @@ public class StatServiceImpl implements StatService {
         }
         statRepository.save(new Stat(member.getId(), statResponse.totalSolved(), LocalDate.now()));
 
-        // TODO: remove this
-        for(int i = 0; i < 7 ; i ++){
-            statRepository.save(new Stat(member.getId(), statResponse.totalSolved() - i, LocalDate.now().minusDays(i)));
-        }
     }
 
     @Override

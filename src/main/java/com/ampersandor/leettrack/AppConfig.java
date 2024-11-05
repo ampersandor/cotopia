@@ -35,7 +35,7 @@ public class AppConfig {
 
     @Bean
     public StatRepository statRepository(){
-        return new MemoryStatRepository();
+        return new JpaStatRepository(em);
     }
 
     @Bean

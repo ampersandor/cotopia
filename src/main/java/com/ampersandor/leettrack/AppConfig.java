@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -43,6 +44,8 @@ public class AppConfig {
         return new StatDataFetcherImpl(new RestTemplate());
     }
 
+    @Bean
+    public StatScheduler statScheduler() { return new StatScheduler(statService(), memberService());}
 
 
 }

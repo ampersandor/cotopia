@@ -31,7 +31,8 @@ class MemberServiceTest {
     @Test
     void join(){
         //given
-        Member member = new Member(1L, "DongHunKim", "ampersandor");
+        Member member = new Member( "DongHunKim", "ampersandor");
+        member.setId(1L);
 
         //when
         memberService.join(member);
@@ -44,8 +45,10 @@ class MemberServiceTest {
     @Test
     void duplicated_join(){
         //given
-        Member member1 = new Member(1L, "DongHunKim", "ampersandor");
-        Member member2 = new Member(2L, "Hacker", "ampersandor");
+        Member member1 = new Member("DongHunKim", "ampersandor");
+        Member member2 = new Member("Hacker", "ampersandor");
+        member1.setId(1L);
+        member2.setId(2L);
 
         //when
         memberService.join(member1);

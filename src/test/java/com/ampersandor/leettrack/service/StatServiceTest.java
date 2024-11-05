@@ -29,7 +29,8 @@ class StatServiceTest {
 
     @Test
     public void updateStatTest(){
-        Member member1 = new Member(0L, "DongHunKim", "ampersandor");
+        Member member1 = new Member("DongHunKim", "ampersandor");
+        member1.setId(0L);
 
         statService.updateStat(member1);
         LocalDate now = LocalDate.now();

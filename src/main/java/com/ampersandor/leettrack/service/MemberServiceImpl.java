@@ -28,7 +28,6 @@ public class MemberServiceImpl implements MemberService{
             memberRepository.delete(member);
             throw e;
         }
-        System.out.println("stat updated");
         return member.getId();
     }
 

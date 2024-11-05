@@ -20,12 +20,10 @@ public class StatServiceImpl implements StatService {
 
     @Override
     public void updateStat(Member member) {
-        System.out.println(member);
         StatResponse statResponse = this.statDataFetcher.fetchStat(member.getUsername());
         if (statResponse.status().equals("error")){
             throw new IllegalStateException(statResponse.message());
         }
-        System.out.println("member = " + member);
         statRepository.save(new Stat(member.getId(), statResponse.totalSolved(), LocalDate.now()));
 
         // TODO: remove this

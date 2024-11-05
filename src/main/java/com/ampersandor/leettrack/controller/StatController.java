@@ -42,11 +42,10 @@ public class StatController {
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<List<Stat>> getAll(){
+    public ResponseEntity<List<Stat>> getAll() {
 
         return ResponseEntity.ok(statService.getAll());
     }
-
 
 
 }

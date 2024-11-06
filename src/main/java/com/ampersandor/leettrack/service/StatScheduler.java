@@ -15,7 +15,7 @@ public class StatScheduler {
         this.memberService = memberService;
     }
 
-    @Scheduled(cron = "0 0 9 * * ?")
+    @Scheduled(cron = "0 0 11 * * ?", zone = "Asia/Seoul")
     public void updateStat(){
         List<Member> members = memberService.findMembers();
         members.forEach(this.statService::updateStat);

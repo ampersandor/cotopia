@@ -50,4 +50,10 @@ public class MemberServiceImpl implements MemberService{
                 });
     }
 
+    @Transactional
+    @Override
+    public void likeMember(Long memberId, int likes){
+        memberRepository.likeMember(memberId, likes);
+    }
+
 }

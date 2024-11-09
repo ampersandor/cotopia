@@ -9,5 +9,6 @@ public interface MemberService {
     Long join(Member member);
     List<Member> findMembers();
     Optional<Member> findOne(Long memberId);
+    void likeMember(Long memberId, int likes);
 }
 

@@ -45,4 +45,14 @@ public class JpaMemberRepository implements MemberRepository{
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
+
+    @Override
+    public void likeMember(Long id, int likes) {
+        em.createQuery("update Member m set m.likes = m.likes + :likes where m.id = :id")
+                .setParameter("id", id)
+                .setParameter("likes", likes)
+                .executeUpdate();
+        em.flush();
+        em.clear();
+    }
 }

@@ -11,4 +11,5 @@ public interface MemberRepository {
     Optional<Member> findById(Long id);
     Optional<Member> findByUsername(String username);
     List<Member> findAll();
+    void likeMember(Long id, int likes);
 }

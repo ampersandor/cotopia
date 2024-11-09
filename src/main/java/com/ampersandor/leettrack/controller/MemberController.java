@@ -1,6 +1,8 @@
 package com.ampersandor.leettrack.controller;
 
 import com.ampersandor.leettrack.common.MyLogger;
+import com.ampersandor.leettrack.dto.LikeRequest;
+import com.ampersandor.leettrack.dto.MemberForm;
 import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,6 +55,26 @@ public class MemberController {
         List<Member> members = memberService.findMembers();
         myLogger.log("Members fetched successfully: " + members.size() + " number of members");
         return ResponseEntity.ok(members);
+    }
+    @PostMapping("/{id}/like")
+    public ResponseEntity<String> likeMember(
+            @PathVariable("id") Long id,
+            @RequestBody LikeRequest likeRequest,
+            HttpServletRequest request
+    ) {
+        MyLogger myLogger = myLoggerProvider.getObject();
+        myLogger.setRequestURL(request.getRequestURI());
+        try {
+            memberService.likeMember(id, likeRequest.getLikes());
+            myLogger.log("Member liked successfully: ID=" + id + ", Likes=" + likeRequest.getLikes());
+            return ResponseEntity.ok("Like updated successfully");
+        } catch (IllegalArgumentException e) {
+            myLogger.log("Member not found: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            myLogger.log("An unexpected error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
 }

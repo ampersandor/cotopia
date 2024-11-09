@@ -1,4 +1,4 @@
-package com.ampersandor.leettrack.controller;
+package com.ampersandor.leettrack.dto;
 
 
 public class MemberForm {

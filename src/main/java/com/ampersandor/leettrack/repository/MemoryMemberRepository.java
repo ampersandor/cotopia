@@ -38,14 +38,6 @@ public class MemoryMemberRepository implements MemberRepository{
         return new ArrayList<>(store.values());
     }
 
-    @Override
-    public void likeMember(Long id, int likes) {
-        Member member = store.get(id);
-        if (member != null) {
-            member.setLikes(member.getLikes() + likes);
-            store.put(id, member);
-        }
-    }
     public void clearStore(){
         store.clear();
     }

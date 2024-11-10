@@ -10,7 +10,6 @@ public class Member {
 
     private String name;
     private String username;
-    private int likes;
 
     public Member(){}
 
@@ -27,14 +26,6 @@ public class Member {
 
     public Long getId() {
         return id;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
     }
 
     public void setId(Long id) {

@@ -6,7 +6,7 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class JpaMemberRepository implements MemberRepository{
+public class JpaMemberRepository implements MemberRepository {
 
     private final EntityManager em;
 
@@ -44,15 +44,5 @@ public class JpaMemberRepository implements MemberRepository{
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
-    }
-
-    @Override
-    public void likeMember(Long id, int likes) {
-        em.createQuery("update Member m set m.likes = m.likes + :likes where m.id = :id")
-                .setParameter("id", id)
-                .setParameter("likes", likes)
-                .executeUpdate();
-        em.flush();
-        em.clear();
     }
 }

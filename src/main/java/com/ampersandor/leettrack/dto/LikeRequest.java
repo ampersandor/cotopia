@@ -1,13 +1,13 @@
 package com.ampersandor.leettrack.dto;
 
 public class LikeRequest {
-    private Integer likes;
+    private Long likes;
 
-    public Integer getLikes() {
+    public Long getLikes() {
         return likes;
     }
 
-    public void setLikes(Integer likes) {
+    public void setLikes(Long likes) {
         this.likes = likes;
     }
 

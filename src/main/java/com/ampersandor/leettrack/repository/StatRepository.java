@@ -9,5 +9,6 @@ import java.util.List;
 public interface StatRepository {
     Stat save(Stat stat);
     List<Stat> findByIdInRange(Member member, LocalDate from, LocalDate to);
+    List<Stat> findByMember(Member member);
     List<Stat> findAll();
 }

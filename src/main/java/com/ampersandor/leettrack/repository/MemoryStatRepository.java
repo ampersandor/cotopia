@@ -31,6 +31,13 @@ public class MemoryStatRepository implements StatRepository{
     }
 
     @Override
+    public List<Stat> findByMember(Member member) {
+        return store.values().stream()
+                .filter(stat -> stat.getMemberId().equals(member.getId()))
+                .toList();
+    }
+
+    @Override
     public List<Stat> findAll(){
         return new ArrayList<>(store.values());
     }

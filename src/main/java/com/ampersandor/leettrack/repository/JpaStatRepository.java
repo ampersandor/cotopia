@@ -36,4 +36,13 @@ public class JpaStatRepository implements StatRepository{
         return em.createQuery("select s from Stat s", Stat.class)
                 .getResultList();
     }
+
+    @Override
+    public List<Stat> findByMember(Member member) {
+        return em.createQuery(
+                "SELECT s FROM Stat s WHERE s.memberId = :memberId", Stat.class)
+                .setParameter("memberId", member.getId())
+                .getResultList();
+
+    }
 }

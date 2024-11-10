@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/stats")
@@ -59,5 +60,32 @@ public class StatController {
         return ResponseEntity.ok(res);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<List<Stat>> updateStat(
+            @RequestBody List<Long> memberIds,
+            HttpServletRequest request) {
+        MyLogger myLogger = myLoggerProvider.getObject();
+        myLogger.setRequestURL(request.getRequestURI());
+
+        List<Stat> updatedStats = memberIds.stream()
+                .map(memberService::findOne)
+                .flatMap(optionalMember -> optionalMember
+                        .map(member -> {
+                            statService.updateStat(member);  // Update stats for each member
+                            myLogger.log("Stats updated for memberId: " + member.getId());
+                            return statService.getStats(member).stream();  // Get updated stats
+                        })
+                        .orElseGet(() -> {
+                            myLogger.log("Member not found for memberId: " + memberIds);
+                            return Stream.<Stat>of();
+                        })
+                )
+                .toList();
+
+        if (updatedStats.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(updatedStats);    }
 
 }

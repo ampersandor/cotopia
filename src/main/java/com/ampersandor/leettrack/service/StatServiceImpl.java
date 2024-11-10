@@ -36,6 +36,12 @@ public class StatServiceImpl implements StatService {
     }
 
     @Override
+    public List<Stat> getStats(Member member){
+        return statRepository.findByMember(member);
+    }
+
+
+    @Override
     public List<Stat> getAll(){
         return statRepository.findAll();
     }

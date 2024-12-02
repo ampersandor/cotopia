@@ -55,7 +55,7 @@ public class MemberLikeController {
     }
 
     @GetMapping(path = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    @CrossOrigin  // Add this if you're dealing with CORS
+    @CrossOrigin
     public SseEmitter subscribe(HttpServletRequest request) {
         MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(request.getRequestURI());

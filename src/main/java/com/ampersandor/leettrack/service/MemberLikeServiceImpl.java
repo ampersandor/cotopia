@@ -6,10 +6,14 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MemberLikeServiceImpl implements MemberLikeService{
     private static final String PENDING_LIKES_KEY = "pending_likes";
@@ -17,12 +21,47 @@ public class MemberLikeServiceImpl implements MemberLikeService{
     private final RedisTemplate<String, Object> redisTemplate;
     private final MemberLikeRepository memberLikeRepository;
 
+    // List of SseEmitters to send updates to clients
+    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+
+    @Override
+    public SseEmitter subscribe() {
+        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        emitters.add(emitter);
+        
+        emitter.onCompletion(() -> emitters.remove(emitter));
+        emitter.onTimeout(() -> emitters.remove(emitter));
+        emitter.onError(e -> emitters.remove(emitter));
+
+        return emitter;
+    }
+
+    private void notifyClients() {
+        List<SseEmitter> deadEmitters = new ArrayList<>();
+        
+        List<MemberLike> memberLikes = memberLikeRepository.findAll();
+        Map<Long, Long> likeCounts = memberLikes.stream()
+            .collect(Collectors.toMap(MemberLike::getMemberId, MemberLike::getCount));
+        
+        emitters.forEach(emitter -> {
+            try {
+                emitter.send(SseEmitter.event()
+                        .name("like-update")
+                        .data(likeCounts));
+            } catch (IOException e) {
+                deadEmitters.add(emitter);
+            }
+        });
+        
+        emitters.removeAll(deadEmitters);
+    }
+
     public MemberLikeServiceImpl(RedisTemplate<String, Object> redisTemplate, MemberLikeRepository memberLikeRepository) {
         this.redisTemplate = redisTemplate;
         this.memberLikeRepository = memberLikeRepository;
     }
 
-    @Scheduled(fixedRate = 5000) // Run every 5 seconds
+    @Scheduled(fixedRate = 1000) // Run every 1 seconds
     @Transactional
     public void flushPendingLikes() {
         HashOperations<String, String, Object> hashOps = redisTemplate.opsForHash();
@@ -57,6 +96,7 @@ public class MemberLikeServiceImpl implements MemberLikeService{
         });
         // Clear processed likes
         redisTemplate.delete(PENDING_LIKES_KEY);
+        notifyClients();
     }
 
     @Override
@@ -80,4 +120,6 @@ public class MemberLikeServiceImpl implements MemberLikeService{
         }
         return likeCounts;
     }
+
+
 }

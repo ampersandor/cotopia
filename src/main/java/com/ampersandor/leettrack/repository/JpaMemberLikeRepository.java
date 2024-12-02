@@ -1,8 +1,11 @@
 package com.ampersandor.leettrack.repository;
 
+import com.ampersandor.leettrack.model.Member;
 import com.ampersandor.leettrack.model.MemberLike;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
@@ -26,6 +29,17 @@ public class JpaMemberLikeRepository implements MemberLikeRepository {
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<MemberLike> findAll() {
+        try {
+            return entityManager.createQuery("select ml from MemberLike ml", MemberLike.class)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return new ArrayList<>();
+        }
+
     }
 
     public Long getLikeCount(Long memberId) {

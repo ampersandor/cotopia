@@ -1,6 +1,5 @@
 package com.ampersandor.cotopia.repository;
 
-import com.ampersandor.cotopia.model.Member;
 import com.ampersandor.cotopia.model.MemberLike;
 import org.springframework.stereotype.Repository;
 

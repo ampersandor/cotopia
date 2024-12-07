@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.repository;
 
-import com.ampersandor.cotopia.model.MemberLike;
+import com.ampersandor.cotopia.entity.MemberLike;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

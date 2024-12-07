@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.repository;
 
-import com.ampersandor.cotopia.model.MemberLike;
+import com.ampersandor.cotopia.entity.MemberLike;
 
 import java.util.List;
 import java.util.Optional;

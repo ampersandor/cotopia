@@ -1,4 +1,4 @@
-package com.ampersandor.cotopia.dto;
+package com.ampersandor.cotopia.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

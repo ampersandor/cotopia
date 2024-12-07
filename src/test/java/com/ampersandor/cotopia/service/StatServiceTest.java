@@ -1,7 +1,7 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.model.Member;
-import com.ampersandor.cotopia.model.Stat;
+import com.ampersandor.cotopia.entity.Member;
+import com.ampersandor.cotopia.entity.Stat;
 import com.ampersandor.cotopia.repository.MemoryStatRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;

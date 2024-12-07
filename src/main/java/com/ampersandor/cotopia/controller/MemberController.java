@@ -1,9 +1,8 @@
 package com.ampersandor.cotopia.controller;
 
 import com.ampersandor.cotopia.common.MyLogger;
-import com.ampersandor.cotopia.dto.LikeRequest;
-import com.ampersandor.cotopia.dto.MemberForm;
-import com.ampersandor.cotopia.model.Member;
+import com.ampersandor.cotopia.dto.response.MemberForm;
+import com.ampersandor.cotopia.entity.Member;
 import com.ampersandor.cotopia.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.ObjectProvider;

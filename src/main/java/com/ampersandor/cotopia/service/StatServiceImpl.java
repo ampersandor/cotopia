@@ -1,8 +1,8 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.model.Member;
-import com.ampersandor.cotopia.model.Stat;
-import com.ampersandor.cotopia.model.StatResponse;
+import com.ampersandor.cotopia.entity.Member;
+import com.ampersandor.cotopia.entity.Stat;
+import com.ampersandor.cotopia.dto.request.StatResponse;
 import com.ampersandor.cotopia.repository.StatRepository;
 import jakarta.transaction.Transactional;
 
@@ -26,7 +26,11 @@ public class StatServiceImpl implements StatService {
         if (statResponse.status().equals("error")){
             throw new IllegalStateException(statResponse.message());
         }
-        statRepository.save(new Stat(member.getId(), statResponse.totalSolved(), LocalDate.now()));
+        statRepository.save(Stat.builder()
+            .userId(member.getId())
+            .date(LocalDate.now())
+            .problemsSolved(statResponse.totalSolved())
+            .build());
 
     }
 

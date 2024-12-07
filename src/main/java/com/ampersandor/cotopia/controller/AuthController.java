@@ -1,7 +1,7 @@
 package com.ampersandor.cotopia.controller;
 
-import com.ampersandor.cotopia.dto.LoginRequest;
-import com.ampersandor.cotopia.dto.SignupRequest;
+import com.ampersandor.cotopia.dto.response.LoginRequest;
+import com.ampersandor.cotopia.dto.response.SignupRequest;
 import com.ampersandor.cotopia.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

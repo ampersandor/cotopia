@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.repository;
 
-import com.ampersandor.cotopia.model.Member;
+import com.ampersandor.cotopia.entity.Member;
 
 import java.util.*;
 

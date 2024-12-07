@@ -1,7 +1,7 @@
 package com.ampersandor.cotopia.repository;
 
-import com.ampersandor.cotopia.model.Member;
-import com.ampersandor.cotopia.model.Stat;
+import com.ampersandor.cotopia.entity.Member;
+import com.ampersandor.cotopia.entity.Stat;
 
 import java.time.LocalDate;
 import java.util.List;

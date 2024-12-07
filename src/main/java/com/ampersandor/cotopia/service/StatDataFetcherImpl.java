@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.model.StatResponse;
+import com.ampersandor.cotopia.dto.request.StatResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;

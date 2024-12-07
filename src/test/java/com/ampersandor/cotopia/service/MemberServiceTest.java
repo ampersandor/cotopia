@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.model.Member;
+import com.ampersandor.cotopia.entity.Member;
 import com.ampersandor.cotopia.repository.MemoryMemberRepository;
 import com.ampersandor.cotopia.repository.MemoryStatRepository;
 import org.junit.jupiter.api.AfterEach;

@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.model.Member;
+import com.ampersandor.cotopia.entity.Member;
 
 import java.util.List;
 import java.util.Optional;

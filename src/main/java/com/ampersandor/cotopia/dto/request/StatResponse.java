@@ -1,4 +1,4 @@
-package com.ampersandor.cotopia.model;
+package com.ampersandor.cotopia.dto.request;
 
 
 import java.util.Collections;

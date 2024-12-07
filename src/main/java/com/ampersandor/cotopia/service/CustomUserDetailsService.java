@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.model.User;
+import com.ampersandor.cotopia.entity.User;
 import com.ampersandor.cotopia.repository.UserRepository;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

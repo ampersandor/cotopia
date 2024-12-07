@@ -1,4 +1,4 @@
-package com.ampersandor.cotopia.model;
+package com.ampersandor.cotopia.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

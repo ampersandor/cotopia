@@ -1,8 +1,8 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.dto.LoginRequest;
-import com.ampersandor.cotopia.dto.SignupRequest;
-import com.ampersandor.cotopia.model.User;
+import com.ampersandor.cotopia.dto.response.LoginRequest;
+import com.ampersandor.cotopia.dto.response.SignupRequest;
+import com.ampersandor.cotopia.entity.User;
 import com.ampersandor.cotopia.repository.UserRepository;
 import com.ampersandor.cotopia.security.JwtUtil;
 import org.springframework.security.core.Authentication;
@@ -41,11 +41,11 @@ public class AuthService {
             throw new RuntimeException("Email is already in use");
         }
 
-        User user = new User(
-                request.getUsername(),
-                passwordEncoder.encode(request.getPassword()),
-                request.getEmail()
-        );
+        User user = User.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .email(request.getEmail())
+                .build();
 
         userRepository.save(user);
     }

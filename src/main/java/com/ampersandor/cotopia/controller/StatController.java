@@ -1,7 +1,7 @@
 package com.ampersandor.cotopia.controller;
 
 import com.ampersandor.cotopia.common.MyLogger;
-import com.ampersandor.cotopia.model.Stat;
+import com.ampersandor.cotopia.entity.Stat;
 import com.ampersandor.cotopia.service.MemberService;
 import com.ampersandor.cotopia.service.StatService;
 import jakarta.servlet.http.HttpServletRequest;

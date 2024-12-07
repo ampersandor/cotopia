@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.model.MemberLike;
+import com.ampersandor.cotopia.entity.MemberLike;
 import com.ampersandor.cotopia.repository.MemberLikeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.redis.core.HashOperations;

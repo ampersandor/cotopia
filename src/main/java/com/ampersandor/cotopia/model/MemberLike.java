@@ -1,9 +1,15 @@
 package com.ampersandor.cotopia.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "member_likes")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberLike {
     @Id
     @Column(name = "member_id")
@@ -11,30 +17,4 @@ public class MemberLike {
 
     @Column(nullable = false)
     private Long count;
-
-    // Constructors
-    public MemberLike() {
-    }
-
-    public MemberLike(Long memberId, Long count) {
-        this.memberId = memberId;
-        this.count = count;
-    }
-
-    // Getters and Setters
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
-    public Long getCount() {
-        return count;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
-    }
 }

@@ -13,7 +13,7 @@ import com.ampersandor.cotopia.service.FoodService;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/foods")
+@RequestMapping("/api/v1/foods")
 public class FoodController {
     
     private final FoodService foodService;
@@ -25,24 +25,24 @@ public class FoodController {
         this.myLoggerProvider = myLoggerProvider;
     }
 
-    @PostMapping("/add/{teamId}/{foodId}/{likeCount}")
+    @PostMapping("/team/{teamId}/food/{foodId}/likes")
     public ResponseEntity<?> addLike(
             @PathVariable("teamId") Long teamId,
             @PathVariable("foodId") Long foodId,
-            @PathVariable("likeCount") Integer likeCount,
-            HttpServletRequest request) {
+            @RequestBody Map<String, Integer> request,  // 또는 별도의 DTO 클래스 사용
+            HttpServletRequest httpRequest) {
         MyLogger myLogger = myLoggerProvider.getObject();
-        myLogger.setRequestURL(request.getRequestURI());
-        foodService.addLikeCount(teamId, foodId, likeCount);
+        myLogger.setRequestURL(httpRequest.getRequestURI());
+        foodService.addLikeCount(teamId, foodId, request.get("likeCount"));
         myLogger.log("addLike finished");
 
         return ResponseEntity.accepted().build();
     }
     
-    @GetMapping("/get/team/{teamId}")
-    public ResponseEntity<Map<Long, Integer>> getLikes(@PathVariable("teamId") Long teamId, HttpServletRequest request) {
+    @GetMapping("/team/{teamId}/likes")
+    public ResponseEntity<Map<Long, Integer>> getLikes(@PathVariable("teamId") Long teamId, HttpServletRequest httpRequest) {
         MyLogger myLogger = myLoggerProvider.getObject();
-        myLogger.setRequestURL(request.getRequestURI());
+        myLogger.setRequestURL(httpRequest.getRequestURI());
         Map<Long, Integer> totalLikes = foodService.getLikeCounts(teamId);
         myLogger.log("getLikes finished");
 

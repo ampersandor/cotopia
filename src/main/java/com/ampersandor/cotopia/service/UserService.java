@@ -10,4 +10,6 @@ public interface UserService {
     void signup(SignupRequest request);
     String login(LoginRequest request);
     Optional<User> findOne(Long id);
+    void updateTeamId(Long userId, Long teamId);
+    void deleteTeamId(Long userId);
 }

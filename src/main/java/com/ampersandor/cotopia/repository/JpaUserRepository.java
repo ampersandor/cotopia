@@ -54,4 +54,20 @@ public class JpaUserRepository implements UserRepository {
                 .getResultList().isEmpty();
     }
 
+    @Override
+    public void updateTeamId(Long userId, Long teamId) {
+        em.createQuery("UPDATE User u SET u.team.id = :teamId WHERE u.id = :userId")
+            .setParameter("teamId", teamId)
+            .setParameter("userId", userId)
+            .executeUpdate();
+    }
+
+    @Override
+    public void deleteTeamId(Long userId) {
+        em.createQuery("UPDATE User u SET u.team.id = NULL WHERE u.id = :userId")
+            .setParameter("userId", userId)
+            .executeUpdate();
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.ampersandor.cotopia.controller;
 
 import com.ampersandor.cotopia.common.MyLogger;
+import com.ampersandor.cotopia.dto.StatDTO;
 import com.ampersandor.cotopia.entity.Stat;
 import com.ampersandor.cotopia.service.StatService;
 import com.ampersandor.cotopia.service.UserService;
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/stat")
+@RequestMapping("/api/v1/stats")
 public class StatController {
 
     private final StatService statService;
@@ -30,8 +32,8 @@ public class StatController {
         this.myLoggerProvider = myLoggerProvider;
     }
 
-    @GetMapping("/get/{userId}")
-    public ResponseEntity<List<Stat>> getStatsByUserBetween(
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<StatDTO>> getStatsByUserBetween(
             @PathVariable("userId") Long userId,
             @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
@@ -39,28 +41,35 @@ public class StatController {
         MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(request.getRequestURI());
 
-
         return userService.findOne(userId)
                 .map(user -> {
                     List<Stat> stats = statService.getStatsByUserBetween(user, from, to);
+                    List<StatDTO> statDTOs = stats.stream()
+                            .map(StatDTO::from)
+                            .collect(Collectors.toList());
                     myLogger.log("getStatsByUserBetween finished");
-                    return ResponseEntity.ok(stats);
+                    return ResponseEntity.ok(statDTOs);
                 })
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @GetMapping("/get/all")
-    public ResponseEntity<List<Stat>> getStatsByTeamBetween(
-            @RequestParam("teamId") Long teamId,
+    @GetMapping("/team/{teamId}")
+    public ResponseEntity<List<StatDTO>> getStatsByTeamBetween(
+            @PathVariable("teamId") Long teamId,
             @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
             HttpServletRequest request) {
         MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(request.getRequestURI());
-        List<Stat> res = statService.getStatsByTeamBetween(teamId, from, to);
+        
+        List<Stat> stats = statService.getStatsByTeamBetween(teamId, from, to);
+        List<StatDTO> statDTOs = stats.stream()
+                .map(StatDTO::from)
+                .collect(Collectors.toList());
+                
         myLogger.log("getStatsByTeamBetween finished");
 
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(statDTOs);
     }
 
 }

@@ -17,9 +17,6 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "team_id")
-    private Long teamId;
-    
     @Column(nullable = false)
     private String name;
     
@@ -31,8 +28,4 @@ public class Food {
     @JoinColumn(name = "team_id", insertable = false, updatable = false)
     private Team team;
 
-    // 좋아요 증가
-    public void addLike() {
-        this.likes++;
-    }
 }

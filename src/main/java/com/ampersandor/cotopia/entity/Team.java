@@ -34,24 +34,4 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     @Builder.Default
     private List<Food> foods = new ArrayList<>();
-
-    public void addUser(User user) {
-        users.add(user);
-        user.setTeam(this);
-    }
-
-    public void removeUser(User user) {
-        users.remove(user);
-        user.setTeam(null);
-    }
-
-    public void addFood(Food food) {
-        foods.add(food);
-        food.setTeam(this);
-    }
-
-    public void removeFood(Food food) {
-        foods.remove(food);
-        food.setTeam(null);
-    }
 }

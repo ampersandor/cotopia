@@ -16,18 +16,18 @@ public class Stat {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", updatable = false)
+    private CodingAccount codingAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",  updatable = false)
+    private User user;
 
     private LocalDate date;
     
     @Column(name = "problems_solved")
     private int problemsSolved;
     
-    private String source;
-
-    public void setProblemsSolved(int problemsSolved, String source) {
-        this.problemsSolved = problemsSolved;
-        this.source = source;
-    }
+    private String platform;
 }

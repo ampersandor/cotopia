@@ -1,4 +1,4 @@
-package com.ampersandor.cotopia.service;
+package com.ampersandor.cotopia.util;
 
 public class LeetCodeGraphQL {
     public static final String USER_PROFILE_QUERY = """

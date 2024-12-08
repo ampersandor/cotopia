@@ -1,7 +1,7 @@
-package com.ampersandor.cotopia.service;
+package com.ampersandor.cotopia.service;    
 
-import com.ampersandor.cotopia.dto.response.LoginRequest;
-import com.ampersandor.cotopia.dto.response.SignupRequest;
+import com.ampersandor.cotopia.dto.LoginRequest;
+import com.ampersandor.cotopia.dto.SignupRequest;
 import com.ampersandor.cotopia.entity.User;
 import com.ampersandor.cotopia.repository.UserRepository;
 import com.ampersandor.cotopia.security.JwtUtil;
@@ -13,15 +13,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
-public class AuthService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserRepository userRepository,
+    public UserServiceImpl(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
                        JwtUtil jwtUtil,
                        AuthenticationManager authenticationManager) {
@@ -63,5 +65,10 @@ public class AuthService {
         } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid username or password", e);
         }
+    }
+
+    @Override
+    public Optional<User> findOne(Long id) {
+        return userRepository.findById(id);
     }
 }

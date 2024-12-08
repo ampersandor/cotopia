@@ -1,15 +1,15 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.entity.Member;
+import com.ampersandor.cotopia.entity.User;
 import com.ampersandor.cotopia.entity.Stat;
-
+import com.ampersandor.cotopia.entity.CodingAccount;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface StatService {
-    void updateStat(Member member);
-    List<Stat> getStats(Member member);
-    List<Stat> getStats(Member member, LocalDate startDate, LocalDate endDate);
-    List<Stat> getAll();
-
+    List<Stat> getStatsByUserBetween(User user, LocalDate startDate, LocalDate endDate);
+    List<Stat> getStatsByTeamBetween(Long teamId, LocalDate startDate, LocalDate endDate);
+    List<Stat> getStatsByCodingAccountOnDate(CodingAccount codingAccount, LocalDate date);
+    void save(Stat stat);
+    boolean existsByAccountIdAndDate(Long accountId, LocalDate date);
 }

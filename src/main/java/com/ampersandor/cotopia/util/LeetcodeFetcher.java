@@ -1,6 +1,5 @@
-package com.ampersandor.cotopia.service;
+package com.ampersandor.cotopia.util;
 
-import com.ampersandor.cotopia.dto.request.StatResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
@@ -15,11 +14,13 @@ import java.math.RoundingMode;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class StatDataFetcherImpl implements StatDataFetcher{
+
+
+public class LeetcodeFetcher implements CodingPlatformFetcher {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public StatDataFetcherImpl(RestTemplate restTemplate) {
+    public LeetcodeFetcher(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

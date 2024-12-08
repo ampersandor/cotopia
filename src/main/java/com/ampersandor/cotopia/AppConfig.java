@@ -2,7 +2,13 @@ package com.ampersandor.cotopia;
 
 import com.ampersandor.cotopia.repository.*;
 import com.ampersandor.cotopia.service.*;
+import com.ampersandor.cotopia.util.CodingPlatformFetcher;
+import com.ampersandor.cotopia.util.LeetcodeFetcher;
 import jakarta.persistence.EntityManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,25 +24,22 @@ import org.springframework.web.client.RestTemplate;
 public class AppConfig {
 
     private final EntityManager em;
+    private final Map<String, CodingPlatformFetcher> fetchers;
 
     @Autowired
-    public AppConfig(EntityManager em){
+    public AppConfig(EntityManager em, Map<String, CodingPlatformFetcher> fetchers){
         this.em = em;
+        this.fetchers = new HashMap<String, CodingPlatformFetcher>(Map.of("leetcode", new LeetcodeFetcher(new RestTemplate())));
     }
 
     @Bean
-    public MemberService memberService(){
-        return new MemberServiceImpl(memberRepository(), statService());
-    }
-
-    @Bean
-    public MemberRepository memberRepository(){
-        return new JpaMemberRepository(em);
+    public UserRepository userRepository(){
+        return new JpaUserRepository(em);
     }
 
     @Bean
     public StatService statService(){
-        return new StatServiceImpl(statRepository(), statDataFetcher());
+        return new StatServiceImpl(statRepository());
     }
 
     @Bean
@@ -45,19 +48,24 @@ public class AppConfig {
     }
 
     @Bean
-    public StatDataFetcher statDataFetcher(){
-        return new StatDataFetcherImpl(new RestTemplate());
+    public StatScheduler statScheduler() { return new StatScheduler(codingAccountRepository(), statService(), fetchers);}
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean
-    public StatScheduler statScheduler() { return new StatScheduler(statService(), memberService());}
+    public CodingAccountRepository codingAccountRepository(){
+        return new JpaCodingAccountRepository(em);
+    }
 
     @Bean
-    public MemberLikeServiceImpl memberLikeService() { return new MemberLikeServiceImpl(redisTemplate(), memberLikeRepository());}
+    public FoodService foodService() { return new FoodServiceImpl(redisTemplate(), foodRepository());}
 
     @Bean
-    public MemberLikeRepository memberLikeRepository() {
-        return new JpaMemberLikeRepository();
+    public FoodRepository foodRepository() {
+        return new JpaFoodRepository(em);
     }
 
     @Value("${spring.redis.host}")

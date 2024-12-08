@@ -1,8 +1,8 @@
 package com.ampersandor.cotopia.controller;
 
-import com.ampersandor.cotopia.dto.response.LoginRequest;
-import com.ampersandor.cotopia.dto.response.SignupRequest;
-import com.ampersandor.cotopia.service.AuthService;
+import com.ampersandor.cotopia.dto.LoginRequest;
+import com.ampersandor.cotopia.dto.SignupRequest;
+import com.ampersandor.cotopia.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,21 +16,21 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthService authService;
+    private final UserService userService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequest request) {
-        authService.signup(request);
+        userService.signup(request);
         return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
-        String token = authService.login(request);
+        String token = userService.login(request);
         return ResponseEntity.ok(Map.of("token", token));
     }
 }

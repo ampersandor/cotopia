@@ -1,4 +1,4 @@
-package com.ampersandor.cotopia.dto.response;
+package com.ampersandor.cotopia.dto;
 
 import java.util.Collections;
 import java.util.Map;

@@ -21,12 +21,12 @@ public class Team {
     @Column(nullable = false)
     private String name;
     
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     
     @Column(name = "leader_id", nullable = false)
     private Long leaderId;
-    
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     @Builder.Default
     private List<User> users = new ArrayList<>();

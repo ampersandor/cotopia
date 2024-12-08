@@ -1,11 +1,15 @@
 package com.ampersandor.cotopia.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ampersandor.cotopia.entity.Team;
 import com.ampersandor.cotopia.entity.User;
 import com.ampersandor.cotopia.repository.TeamRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
@@ -20,8 +24,8 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team getTeam(Long id) {
-        return teamRepository.findById(id).orElseThrow(() -> new RuntimeException("Team not found"));
+    public Optional<Team> getTeam(Long id) {
+        return teamRepository.findById(id);
     }
 
     @Override

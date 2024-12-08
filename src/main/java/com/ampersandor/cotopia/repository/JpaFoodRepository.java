@@ -42,7 +42,7 @@ public class JpaFoodRepository implements FoodRepository {
 
     public List<Food> findTodayFoods(Long teamId, LocalDate date) {
         return em.createQuery(
-                "SELECT f FROM Food f WHERE f.teamId = :teamId AND f.date = :date", Food.class)
+                "SELECT f FROM Food f WHERE f.team.id = :teamId AND f.date = :date", Food.class)
                 .setParameter("teamId", teamId)
                 .setParameter("date", date)
                 .getResultList();

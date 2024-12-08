@@ -53,6 +53,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public String login(LoginRequest request) {
+        System.out.println("request.getUsername() = " + request.getUsername());
+        System.out.println("request.getPassword() = " + request.getPassword());
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService {
                     request.getPassword()
                 )
             );
-            
+            System.out.println("hmm..");
             return jwtUtil.generateToken(authentication.getName());
         } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid username or password", e);

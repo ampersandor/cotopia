@@ -68,6 +68,12 @@ public class AppConfig {
         return new JpaFoodRepository(em);
     }
 
+    @Bean
+    public TeamService teamService() { return new TeamServiceImpl(teamRepository());}
+
+    @Bean
+    public TeamRepository teamRepository() { return new JpaTeamRepository(em);}
+
     @Value("${spring.redis.host}")
     private String redisHost;
 

@@ -22,7 +22,7 @@ public class StatScheduler {
     private final StatService statService;
     private final Map<String, CodingPlatformFetcher> fetchers;
 
-    @Scheduled(fixedRate = 60000) // Run every 1 minute
+    @Scheduled(fixedRate = 600000) // Run every 1 minute
     public void updateStat() {
         System.out.println("Update Stat!!");
         System.out.println("fetchers = " + fetchers);
@@ -39,10 +39,7 @@ public class StatScheduler {
             if (statResponse.status().equals("error")) {
                 throw new IllegalStateException(statResponse.message());
             }
-            System.out.println("codingAccount = " + codingAccount);
-            System.out.println("codingAccount.getUser() = " + codingAccount.getUser().getId());
-            System.out.println("codingAccount.getPlatform() = " + codingAccount.getPlatform());
-
+   
             Stat stat = Stat.builder()
                     .codingAccount(codingAccount)
                     .user(codingAccount.getUser())

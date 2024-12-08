@@ -1,6 +1,5 @@
 package com.ampersandor.cotopia.entity;
 
-import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(name = "users")
 public class User {
 
     @Id

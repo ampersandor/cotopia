@@ -39,8 +39,8 @@ public class FoodController {
         return ResponseEntity.accepted().build();
     }
     
-    @GetMapping("/get/{teamId}")
-    public ResponseEntity<Map<Long, Integer>> getLikes(@PathVariable Long teamId, HttpServletRequest request) {
+    @GetMapping("/get/team/{teamId}")
+    public ResponseEntity<Map<Long, Integer>> getLikes(@PathVariable("teamId") Long teamId, HttpServletRequest request) {
         MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(request.getRequestURI());
         Map<Long, Integer> totalLikes = foodService.getLikeCounts(teamId);

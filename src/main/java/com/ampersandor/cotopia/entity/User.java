@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 @Table(name = "users")
 public class User {
+    public static final String DEFAULT_ROLE = "ROLE_USER";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +23,10 @@ public class User {
     
     @Column(nullable = false, unique = true)
     private String email;
-    
+
     @Column(nullable = false)
-    private String role;
+    @Builder.Default
+    private String role = DEFAULT_ROLE;
     
     @Column(nullable = false)
     private String password;

@@ -49,7 +49,7 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public boolean existsByEmail(String email) {
-        return !em.createQuery("select u from ser u where u.email= :email", User.class)
+        return !em.createQuery("select u from User u where u.email= :email", User.class)
                 .setParameter("email", email)
                 .getResultList().isEmpty();
     }

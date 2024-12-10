@@ -42,7 +42,6 @@ public class StatScheduler {
    
             Stat stat = Stat.builder()
                     .codingAccount(codingAccount)
-                    .user(codingAccount.getUser())
                     .date(today)
                     .problemsSolved(statResponse.totalSolved())
                     .platform(codingAccount.getPlatform())

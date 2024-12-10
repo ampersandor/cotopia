@@ -19,18 +19,13 @@ public class StatServiceImpl implements StatService {
     }
 
     @Override
-    public List<Stat> getStatsByUserBetween(User user, LocalDate startDate, LocalDate endDate) {
-        return statRepository.findByUserIdAndDateBetween(user.getId(), startDate, endDate);
+    public List<Stat> getStatsByUserBetween(Long userId, LocalDate startDate, LocalDate endDate) {
+        return statRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
     }
 
     @Override
     public List<Stat> getStatsByTeamBetween(Long teamId, LocalDate startDate, LocalDate endDate) {
         return statRepository.findByTeamIdAndDateBetween(teamId, startDate, endDate);
-    }
-
-    @Override
-    public List<Stat> getStatsByCodingAccountOnDate(CodingAccount codingAccount, LocalDate date) {
-        return statRepository.findByAccountIdAndDate(codingAccount.getId(), date);
     }
 
     @Override

@@ -31,18 +31,27 @@ public class JpaStatRepository implements StatRepository{
     }
 
     @Override
-    public List<Stat> findAll() {
-        return em.createQuery("select s from Stat s", Stat.class)
+    public List<Stat> findByUserIdAndDateBetween(Long userId, LocalDate from, LocalDate to) {
+        return em.createQuery(
+                "SELECT s FROM Stat s " +
+                "WHERE s.codingAccount.user.id = :userId " +
+                "AND s.date BETWEEN :from AND :to", Stat.class)
+                .setParameter("userId", userId)
+                .setParameter("from", from)
+                .setParameter("to", to)
                 .getResultList();
     }
 
-
     @Override
-    public List<Stat> findByAccountIdAndDate(Long accountId, LocalDate date) {
-        return em.createQuery("SELECT s FROM Stat s WHERE s.codingAccount.id = :accountId AND s.date = :date", Stat.class)
-                .setParameter("accountId", accountId)
-                .setParameter("date", date)
-                .getResultList();
+    public List<Stat> findByTeamIdAndDateBetween(Long teamId, LocalDate from, LocalDate to) {
+        return em.createQuery(
+                "SELECT s FROM Stat s " +
+                "WHERE s.codingAccount.user.team.id = :teamId " +
+                "AND s.date BETWEEN :from AND :to", Stat.class)
+            .setParameter("teamId", teamId)
+            .setParameter("from", from)
+            .setParameter("to", to)
+            .getResultList();
     }
 
     @Override
@@ -51,35 +60,8 @@ public class JpaStatRepository implements StatRepository{
                 .setParameter("accountId", accountId)
                 .setParameter("date", date)
                 .getSingleResult() > 0;
-    }   
-
-    @Override
-    public List<Stat> findByUserIdAndDateBetween(Long userId, LocalDate from, LocalDate to) {
-        return em.createQuery("SELECT s FROM Stat s WHERE s.user.id = :userId AND s.date BETWEEN :from AND :to", Stat.class)
-                .setParameter("userId", userId)
-                .setParameter("from", from)
-                .setParameter("to", to)
-                .getResultList();
     }
 
-    @Override
-    public List<Stat> findByUserIdAndDate(Long userId, LocalDate date) {
-        return em.createQuery("SELECT s FROM Stat s WHERE s.user.id = :userId AND s.date = :date", Stat.class)
-                .setParameter("userId", userId)
-                .setParameter("date", date)
-                .getResultList();
-    }
 
-    @Override
-    public List<Stat> findByTeamIdAndDateBetween(Long teamId, LocalDate from, LocalDate to) {
-        return em.createQuery(
-                "SELECT s FROM Stat s " +
-                "JOIN User u ON s.user.id = u.id " +
-                "WHERE u.team.id = :teamId AND s.date BETWEEN :from AND :to", Stat.class)
-            .setParameter("teamId", teamId)
-            .setParameter("from", from)
-            .setParameter("to", to)
-            .getResultList();
-    }
 
 }

@@ -41,16 +41,12 @@ public class StatController {
         MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(request.getRequestURI());
 
-        return userService.findOne(userId)
-                .map(user -> {
-                    List<Stat> stats = statService.getStatsByUserBetween(user, from, to);
-                    List<StatDTO> statDTOs = stats.stream()
-                            .map(StatDTO::from)
-                            .collect(Collectors.toList());
-                    myLogger.log("getStatsByUserBetween finished");
-                    return ResponseEntity.ok(statDTOs);
-                })
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        List<Stat> stats = statService.getStatsByUserBetween(userId, from, to);
+        List<StatDTO> statDTOs = stats.stream()
+                .map(StatDTO::from)
+                .collect(Collectors.toList());
+        myLogger.log("getStatsByUserBetween finished");
+        return ResponseEntity.ok(statDTOs);
     }
 
     @GetMapping("/team/{teamId}")

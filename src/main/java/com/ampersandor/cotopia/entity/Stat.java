@@ -20,10 +20,6 @@ public class Stat {
     @JoinColumn(name = "account_id", updatable = false)
     private CodingAccount codingAccount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",  updatable = false)
-    private User user;
-
     private LocalDate date;
     
     @Column(name = "problems_solved")

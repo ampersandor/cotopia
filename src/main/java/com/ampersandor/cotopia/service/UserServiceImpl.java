@@ -85,4 +85,19 @@ public class UserServiceImpl implements UserService {
     public void deleteTeamId(Long userId) {
         userRepository.deleteTeamId(userId);
     }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public boolean validateToken(String token) {
+        return jwtUtil.validateToken(token);
+    }
+
+    @Override
+    public String getUsernameFromToken(String token) {
+        return jwtUtil.extractUsername(token);
+    }
 }

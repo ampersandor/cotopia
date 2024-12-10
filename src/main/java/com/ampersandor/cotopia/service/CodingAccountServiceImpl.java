@@ -19,8 +19,8 @@ public class CodingAccountServiceImpl implements CodingAccountService {
     }
 
     @Override
-    public void delete(CodingAccount codingAccount) {
-        codingAccountRepository.delete(codingAccount);
+    public void delete(Long codingAccountId) {
+        codingAccountRepository.delete(codingAccountId);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CodingAccountServiceImpl implements CodingAccountService {
     }
 
     @Override
-    public CodingAccount findByUserId(Long userId) {
+    public List<CodingAccount> findByUserId(Long userId) {
         return codingAccountRepository.findByUserId(userId);
     }
 

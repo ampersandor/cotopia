@@ -5,8 +5,8 @@ import com.ampersandor.cotopia.entity.CodingAccount;
 
 public interface CodingAccountService {
     void save(CodingAccount codingAccount);
-    void delete(CodingAccount codingAccount);
+    void delete(Long codingAccountId);
     void update(CodingAccount codingAccount);
-    CodingAccount findByUserId(Long userId);
+    List<CodingAccount> findByUserId(Long userId);
     List<CodingAccount> findAll();
 }

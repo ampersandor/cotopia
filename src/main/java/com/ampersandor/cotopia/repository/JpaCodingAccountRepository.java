@@ -12,8 +12,10 @@ public class JpaCodingAccountRepository implements CodingAccountRepository {
     }
 
     @Override
-    public CodingAccount findByUserId(Long userId) {
-        return em.find(CodingAccount.class, userId);
+    public List<CodingAccount> findByUserId(Long userId) {
+        return em.createQuery("select c from CodingAccount c where c.userId = :userId", CodingAccount.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 
     @Override
@@ -22,8 +24,8 @@ public class JpaCodingAccountRepository implements CodingAccountRepository {
     }
 
     @Override
-    public void delete(CodingAccount codingAccount) {
-        em.remove(codingAccount);
+    public void delete(Long codingAccountId) {
+        em.remove(em.find(CodingAccount.class, codingAccountId));
     }
 
     @Override

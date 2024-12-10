@@ -56,6 +56,9 @@ public class AppConfig {
     }
 
     @Bean
+    public CodingAccountService codingAccountService() { return new CodingAccountServiceImpl(codingAccountRepository());}
+
+    @Bean
     public CodingAccountRepository codingAccountRepository(){
         return new JpaCodingAccountRepository(em);
     }

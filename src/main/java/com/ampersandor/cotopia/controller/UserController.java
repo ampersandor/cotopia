@@ -5,6 +5,7 @@ import com.ampersandor.cotopia.dto.SignupRequest;
 import com.ampersandor.cotopia.dto.LoginResponse;
 import com.ampersandor.cotopia.service.UserService;
 import com.ampersandor.cotopia.entity.User;
+import com.ampersandor.cotopia.dto.ProfileDTO;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -105,5 +106,13 @@ public class UserController {
         return ResponseEntity.ok()
             .header(HttpHeaders.SET_COOKIE, cookie.toString())
             .body(Map.of("message", "Logged out successfully"));
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileDTO> getProfile(@CookieValue(name = "jwt") String token) {
+        String username = userService.getUsernameFromToken(token);
+        return userService.findByUsername(username)
+                .map(user -> ResponseEntity.ok(ProfileDTO.from(user)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 }

@@ -3,6 +3,8 @@ package com.ampersandor.cotopia.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Getter
@@ -35,4 +37,7 @@ public class User {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<CodingAccount> codingAccounts = new ArrayList<>();
 }

@@ -22,13 +22,11 @@ import java.util.stream.Collectors;
 public class StatController {
 
     private final StatService statService;
-    private final UserService userService;
     private final ObjectProvider<MyLogger> myLoggerProvider;
 
     @Autowired
-    public StatController(StatService statService, UserService userService, ObjectProvider<MyLogger> myLoggerProvider) {
+    public StatController(StatService statService, ObjectProvider<MyLogger> myLoggerProvider) {
         this.statService = statService;
-        this.userService = userService;
         this.myLoggerProvider = myLoggerProvider;
     }
 

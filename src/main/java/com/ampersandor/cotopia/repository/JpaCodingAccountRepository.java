@@ -19,8 +19,9 @@ public class JpaCodingAccountRepository implements CodingAccountRepository {
     }
 
     @Override
-    public void save(CodingAccount codingAccount) {
+    public CodingAccount save(CodingAccount codingAccount) {
         em.persist(codingAccount);
+        return codingAccount;
     }
 
     @Override
@@ -29,8 +30,9 @@ public class JpaCodingAccountRepository implements CodingAccountRepository {
     }
 
     @Override
-    public void update(CodingAccount codingAccount) {
+    public CodingAccount update(CodingAccount codingAccount) {
         em.merge(codingAccount);
+        return codingAccount;
     }
 
     @Override

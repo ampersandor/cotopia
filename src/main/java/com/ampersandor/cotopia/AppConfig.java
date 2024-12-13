@@ -72,7 +72,7 @@ public class AppConfig {
     }
 
     @Bean
-    public TeamService teamService() { return new TeamServiceImpl(teamRepository());}
+    public TeamService teamService() { return new TeamServiceImpl(teamRepository(), userRepository());}
 
     @Bean
     public TeamRepository teamRepository() { return new JpaTeamRepository(em);}

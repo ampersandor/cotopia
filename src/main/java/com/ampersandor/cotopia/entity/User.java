@@ -4,7 +4,9 @@ package com.ampersandor.cotopia.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+
 
 @Entity
 @Getter
@@ -40,4 +42,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @Builder.Default
     private List<CodingAccount> codingAccounts = new ArrayList<>();
+
+    @Column(name = "created_at", nullable = false)
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
+
 }

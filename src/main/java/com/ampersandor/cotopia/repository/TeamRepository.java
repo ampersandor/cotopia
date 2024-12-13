@@ -10,5 +10,5 @@ public interface TeamRepository {
     Optional<Team> findById(Long id);
     List<Team> findAll();
     List<Team> findByUserId(Long userId);
-    void deleteById(Long id);
+    void deleteById(Long teamId);
 }

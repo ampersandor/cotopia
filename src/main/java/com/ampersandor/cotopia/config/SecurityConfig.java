@@ -29,11 +29,12 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/v1/user/**").permitAll()
+                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/api/v1/users/**").permitAll()
                     .requestMatchers("/api/v1/stats/**").permitAll()
-                    .requestMatchers("/api/v1/team/**").permitAll()
+                    .requestMatchers("/api/v1/teams/**").permitAll()
                     .requestMatchers("/api/v1/foods/**").permitAll()
-                    .requestMatchers("/api/v1/coding-account/**").permitAll()
+                    .requestMatchers("/api/v1/coding-accounts/**").permitAll()
                     .anyRequest().authenticated())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

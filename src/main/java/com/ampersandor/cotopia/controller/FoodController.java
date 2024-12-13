@@ -3,27 +3,23 @@ package com.ampersandor.cotopia.controller;
 import com.ampersandor.cotopia.common.MyLogger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import com.ampersandor.cotopia.service.FoodService;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/foods")
 public class FoodController {
     
     private final FoodService foodService;
     private final ObjectProvider<MyLogger> myLoggerProvider;
-
-    @Autowired
-    public FoodController(FoodService foodService, ObjectProvider<MyLogger> myLoggerProvider) {
-        this.foodService = foodService;
-        this.myLoggerProvider = myLoggerProvider;
-    }
 
     @PostMapping("/team/{teamId}/food/{foodId}/likes")
     public ResponseEntity<?> addLike(

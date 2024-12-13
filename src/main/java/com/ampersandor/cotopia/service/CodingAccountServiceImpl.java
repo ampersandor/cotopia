@@ -14,8 +14,8 @@ public class CodingAccountServiceImpl implements CodingAccountService {
     }
 
     @Override
-    public void save(CodingAccount codingAccount) {
-        codingAccountRepository.save(codingAccount);
+    public CodingAccount save(CodingAccount codingAccount) {
+        return codingAccountRepository.save(codingAccount);
     }
 
     @Override
@@ -24,8 +24,8 @@ public class CodingAccountServiceImpl implements CodingAccountService {
     }
 
     @Override
-    public void update(CodingAccount codingAccount) {
-        codingAccountRepository.update(codingAccount);
+    public CodingAccount update(CodingAccount codingAccount) {
+        return codingAccountRepository.update(codingAccount);
     }
 
     @Override

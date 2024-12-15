@@ -28,7 +28,7 @@ public class Team {
     @Column(name = "leader_id", nullable = false)
     private Long leaderId;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team")
     @Builder.Default
     private List<User> users = new ArrayList<>();
     

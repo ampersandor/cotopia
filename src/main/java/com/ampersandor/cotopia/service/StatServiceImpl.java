@@ -1,8 +1,6 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.entity.CodingAccount;
 import com.ampersandor.cotopia.entity.Stat;
-import com.ampersandor.cotopia.entity.User;
 import com.ampersandor.cotopia.repository.StatRepository;
 import jakarta.transaction.Transactional;
 

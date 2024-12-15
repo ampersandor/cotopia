@@ -63,8 +63,6 @@ public class AppConfig {
         return new JpaCodingAccountRepository(em);
     }
 
-    @Bean
-    public FoodService foodService() { return new FoodServiceImpl(redisTemplate(), foodRepository());}
 
     @Bean
     public FoodRepository foodRepository() {
@@ -77,6 +75,7 @@ public class AppConfig {
     @Bean
     public TeamRepository teamRepository() { return new JpaTeamRepository(em);}
 
+    
     @Value("${spring.redis.host}")
     private String redisHost;
 

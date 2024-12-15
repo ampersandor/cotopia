@@ -17,6 +17,7 @@ public class StatDTO {
     @Builder
     public static class Response {
         private Long id;
+        private String username;
         private LocalDate date;
         private int problemsSolved;
         private String platform;
@@ -24,6 +25,7 @@ public class StatDTO {
         public static Response from(Stat stat) {
             return Response.builder()
                     .id(stat.getId())
+                    .username(stat.getCodingAccount().getUser().getUsername())
                     .date(stat.getDate())
                     .problemsSolved(stat.getProblemsSolved())
                     .platform(stat.getPlatform())

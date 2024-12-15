@@ -54,7 +54,7 @@ public class TeamDTO {
         private String name;
         private Long leaderId;
         private LocalDateTime createdAt;
-        private List<UserDTO.Response> users;
+        private List<UserDTO.Response> members;
         private List<FoodDTO.Response> foods;
 
         public static Response from(Team team) {
@@ -63,7 +63,7 @@ public class TeamDTO {
                     .name(team.getName())
                     .leaderId(team.getLeaderId())
                     .createdAt(team.getCreatedAt())
-                    .users(team.getUsers().stream().map(UserDTO.Response::from).collect(Collectors.toList()))
+                    .members(team.getUsers().stream().map(UserDTO.Response::from).collect(Collectors.toList()))
                     .foods(team.getFoods().stream().map(FoodDTO.Response::from).collect(Collectors.toList()))
                     .build();
         }

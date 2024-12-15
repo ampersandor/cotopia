@@ -1,11 +1,16 @@
 package com.ampersandor.cotopia.service;
 
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import com.ampersandor.cotopia.entity.Food;
 
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
 
 public interface FoodService {
-    void addLikeCount(Long teamId, Long foodId, int likeCount);
-    Map<Long, Integer> getLikeCounts(Long teamId);
-    SseEmitter subscribe();
+    List<Food> getFoodsByTeamId(Long teamId, LocalDate date);
+    // Food save(Food food);
+    // void delete(Long id);
+    // Optional<Food> findById(Long id);
+    void addLikeCount(Long foodId, int likeCount);
 }

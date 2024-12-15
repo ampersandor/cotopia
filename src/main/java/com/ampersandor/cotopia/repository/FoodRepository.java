@@ -8,9 +8,8 @@ import java.time.LocalDate;
 
 public interface FoodRepository {
     Food save(Food food);
-    void delete(Food food);
+    void deleteById(Long id);
     Optional<Food> findById(Long id);
-    List<Food> findTodayFoods(Long teamId, LocalDate date);
-    Long getLikeCount(Long foodId);
-    Food updateLikeCount(Long foodId, int count);
+    List<Food> findByTeamIdAndCreatedAtDate(Long teamId, LocalDate date);
+    void addLikeCount(Long foodId, int likeCount);
 }

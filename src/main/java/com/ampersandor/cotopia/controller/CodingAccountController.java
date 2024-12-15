@@ -26,13 +26,13 @@ public class CodingAccountController {
     private final AuthService authService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<CodingAccountDTO.Response>> getCodingAccountByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<CodingAccountDTO.Response>> getCodingAccountByUserId(@PathVariable(name = "userId") Long userId) {
         List<CodingAccount> codingAccounts = codingAccountService.findByUserId(userId);
         return ResponseEntity.ok(codingAccounts.stream().map(CodingAccountDTO.Response::from).collect(Collectors.toList()));
     }
 
     @PostMapping
-    public ResponseEntity<CodingAccountDTO.Response> createCodingAccount(@RequestBody CodingAccountDTO.CreateRequest codingAccount, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<CodingAccountDTO.Response> createCodingAccount(@RequestBody CodingAccountDTO.CreateRequest codingAccount, @CookieValue(name ="jwt") String token) {
         Long userId = authService.getUserIdFromToken(token);
         User user = userService.findOne(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         CodingAccount createdCodingAccount = codingAccountService.save(codingAccount.toEntity(user));
@@ -40,7 +40,7 @@ public class CodingAccountController {
     }
 
     @PutMapping("/{codingAccountId}")
-    public ResponseEntity<CodingAccountDTO.Response> updateCodingAccount(@PathVariable Long codingAccountId, @RequestBody CodingAccountDTO.UpdateRequest codingAccount, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<CodingAccountDTO.Response> updateCodingAccount(@PathVariable(name = "codingAccountId") Long codingAccountId, @RequestBody CodingAccountDTO.UpdateRequest codingAccount, @CookieValue(name ="jwt") String token) {
         Long userId = authService.getUserIdFromToken(token);
         User user = userService.findOne(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         CodingAccount updatedCodingAccount = codingAccountService.update(codingAccount.toEntity(user));
@@ -48,7 +48,7 @@ public class CodingAccountController {
     }
 
     @DeleteMapping("/{codingAccountId}")
-    public ResponseEntity<Void> deleteCodingAccount(@PathVariable Long codingAccountId) {
+    public ResponseEntity<Void> deleteCodingAccount(@PathVariable(name = "codingAccountId") Long codingAccountId) {
         codingAccountService.delete(codingAccountId);
         return ResponseEntity.noContent().build();
     }

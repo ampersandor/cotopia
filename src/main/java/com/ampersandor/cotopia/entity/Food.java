@@ -22,7 +22,9 @@ public class Food {
     
     private LocalDate date;
     
-    private int likes;
+    @Column(name = "like_count", nullable = false)
+    private int likeCount;
+
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", insertable = false, updatable = false)

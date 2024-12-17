@@ -43,7 +43,6 @@ public class FoodServiceImpl implements FoodService {
         if (keys == null || keys.isEmpty()) {
             return;
         }
-
         HashOperations<String, String, Integer> hashOps = redisTemplate.opsForHash();
         
         for (String key : keys) {
@@ -52,7 +51,6 @@ public class FoodServiceImpl implements FoodService {
             if (pendingLikes.isEmpty()) {
                 continue;
             }
-
             pendingLikes.forEach((foodId, count) -> {
                 try {
                     Long foodIdLong = Long.valueOf(foodId);

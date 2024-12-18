@@ -39,8 +39,18 @@ public class FoodDTO {
     public static class LikeResponse {
         private Long foodId;
         private int likeCount;
-
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class LikeRequest {
+        private Long foodId;
+        private Long teamId;
+        private int likeCount;
+    }
+
 
     @Getter
     @NoArgsConstructor

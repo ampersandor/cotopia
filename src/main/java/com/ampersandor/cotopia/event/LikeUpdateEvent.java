@@ -1,22 +1,32 @@
 package com.ampersandor.cotopia.event;
 
 import org.springframework.context.ApplicationEvent;
+import lombok.Getter;
+import lombok.AllArgsConstructor;
+import java.util.Map;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Getter
 public class LikeUpdateEvent extends ApplicationEvent {
-    private final Long foodId;
-    private final int likeCount;
+    private final Map<Long, LikeUpdateInfo> updates;
 
-    public LikeUpdateEvent(Object source, Long foodId, int likeCount) {
+    public LikeUpdateEvent(Object source, Map<Long, LikeUpdateInfo> updates) {
         super(source);
-        this.foodId = foodId;
-        this.likeCount = likeCount;
+        this.updates = updates;
     }
 
-    public Long getFoodId() {
-        return foodId;
+    public String toJson(ObjectMapper objectMapper) {
+        try {
+            return objectMapper.writeValueAsString(updates);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize updates to JSON", e);
+        }
     }
 
-    public int getLikeCount() {
-        return likeCount;
+    @Getter
+    @AllArgsConstructor
+    public static class LikeUpdateInfo {
+        private final Map<Long, Integer> foodLikes;
     }
 } 

@@ -8,28 +8,27 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import com.ampersandor.cotopia.handler.FoodWebSocketHandler;
 import com.ampersandor.cotopia.service.FoodService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 
 @Configuration
 @EnableWebSocket
+@RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
     
     private final FoodService foodService;
-
-    @Autowired
-    public WebSocketConfig(FoodService foodService) {
-        this.foodService = foodService;
-    }
+    private final ObjectMapper objectMapper;
 
     @Override
     public void registerWebSocketHandlers(@NonNull WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler(foodService), "/ws")
+        registry.addHandler(webSocketHandler(), "/ws")
                .setAllowedOrigins("*");
     }
 
     @Bean
-    public WebSocketHandler webSocketHandler(FoodService foodService) {
-        return new FoodWebSocketHandler(foodService);
+    public WebSocketHandler webSocketHandler() {
+        return new FoodWebSocketHandler(foodService, objectMapper);
     }
 }

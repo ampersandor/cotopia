@@ -13,105 +13,103 @@ import org.springframework.lang.NonNull;
 import java.io.IOException;
 import java.util.Set;   
 import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.ampersandor.cotopia.dto.FoodDTO;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class FoodWebSocketHandler extends TextWebSocketHandler {
     
-    private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
     private final FoodService foodService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    public FoodWebSocketHandler(FoodService foodService) {
-        this.foodService = foodService;
-    }
-    
+    private final Map<Long, Set<WebSocketSession>> teamSessions = new ConcurrentHashMap<>();
+
     @Override
     public void afterConnectionEstablished(@NonNull WebSocketSession session) {
-        sessions.add(session);
-        System.out.println("WebSocket connected: " + session.getId());
+        if (session.getUri() == null) return;
+        
+        String query = session.getUri().getQuery();
+        Long teamId = extractTeamId(query);
+        
+        teamSessions.computeIfAbsent(teamId, k -> ConcurrentHashMap.newKeySet()).add(session);
     }
     
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, @NonNull TextMessage message) {
         String payload = message.getPayload();
-        System.out.println("Received message: " + payload);
+        log.info("Received message: " + payload);
         
         try {
-            // JSON 파싱
-            LikeRequest likeRequest = objectMapper.readValue(payload, LikeRequest.class);
-            
-            // 좋아요 수 증가
+            FoodDTO.LikeRequest likeRequest = objectMapper.readValue(payload, FoodDTO.LikeRequest.class);            
             foodService.addLikeCount(likeRequest.getFoodId(), likeRequest.getLikeCount());
             
         } catch (IOException e) {
-            System.err.println("Error parsing message: " + e.getMessage());
+            log.error("Error parsing message: " + e.getMessage());
+        } catch (Exception e) {
+            log.error("Error handleTextMessage: " + e.getMessage());
         }
     }
     
     @Override
     public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) {
-        sessions.remove(session);
-        System.out.println("WebSocket closed: " + session.getId());
+        if (session.getUri() == null) return;
+        String query = session.getUri().getQuery();
+        Long teamId = extractTeamId(query);
+        Set<WebSocketSession> sessions = teamSessions.get(teamId);
+        if (sessions != null) {
+            sessions.remove(session);
+            if (sessions.isEmpty()) {
+                teamSessions.remove(teamId);
+            }
+        }
     }
     
-    public void broadcastMessage(String message) {
-        TextMessage textMessage = new TextMessage(message);
-        sessions.forEach(session -> {
+    public void broadcastToTeam(Long teamId, String message) {
+        Set<WebSocketSession> sessions = this.teamSessions.get(teamId);
+        if (sessions != null) {
+            sessions.forEach(session -> {
+                try {
+                    if (session.isOpen()) {
+                        session.sendMessage(new TextMessage(message));
+                    }
+                } catch (IOException e) {
+                    log.error("Failed to send message to session: " + e.getMessage());
+                }
+            });
+        }
+    }
+    
+    @EventListener
+    public void handleLikeUpdateEvent(LikeUpdateEvent event) {
+        log.info("Handling like update event: " + event.toJson(objectMapper));
+        event.getUpdates().forEach((teamId, updateInfo) -> {
             try {
-                session.sendMessage(textMessage);
-            } catch (IOException e) {
-                System.err.println("Error sending message: " + e.getMessage());
+                String message = objectMapper.writeValueAsString(Map.of(
+                    "type", "LIKE_UPDATE",
+                    "updates", updateInfo.getFoodLikes()
+                ));
+                broadcastToTeam(teamId, message);
+            } catch (JsonProcessingException e) {
+                log.error("Failed to serialize like update message", e);
             }
         });
     }
-    
-    // 내부 클래스 또는 별도의 파일로 정의할 수 있습니다.
-    public static class LikeRequest {
-        private Long foodId;
-        private Long teamId;
-        private int likeCount;
 
-        // Getters and Setters
-        public Long getFoodId() {
-            return foodId;
+    private Long extractTeamId(String query) {
+        if (query != null) {
+            String[] params = query.split("&");
+            for (String param : params) {
+                String[] keyValue = param.split("=");
+                if (keyValue.length == 2 && "teamId".equals(keyValue[0])) {
+                    return Long.parseLong(keyValue[1]);
+                }
+            }
         }
-
-        public void setFoodId(Long foodId) {
-            this.foodId = foodId;
-        }
-
-        public Long getTeamId() {
-            return teamId;
-        }
-
-        public void setTeamId(Long teamId) {
-            this.teamId = teamId;
-        }
-
-        public int getLikeCount() {
-            return this.likeCount;
-        }
-
-        public void setLikeCount(int likeCount) {
-            this.likeCount = likeCount;
-        }
-    }
-
-    @EventListener
-    public void handleLikeUpdateEvent(LikeUpdateEvent event) {
-        try {
-            FoodDTO.LikeResponse response = FoodDTO.LikeResponse.builder()
-                .foodId(event.getFoodId())
-                .likeCount(event.getLikeCount())
-                .build();
-            
-            String jsonResponse = objectMapper.writeValueAsString(response);
-            broadcastMessage(jsonResponse);
-        } catch (IOException e) {
-            System.err.println("Error converting message to JSON: " + e.getMessage());
-        }
+        throw new IllegalArgumentException("teamId is required");
     }
 } 

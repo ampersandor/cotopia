@@ -41,13 +41,12 @@ public class FoodServiceImpl implements FoodService {
         log.info("Added like count: " + foodId + " " + amount);
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 500)
     @Transactional
     public void flushPendingLikes() {
         Set<String> keys = redisTemplate.keys(PENDING_LIKES_KEY + "*");
         
         if (keys == null || keys.isEmpty()) {
-            log.info("No pending likes to flush");
             return;
         }
         log.info("Flushing pending likes: " + keys);

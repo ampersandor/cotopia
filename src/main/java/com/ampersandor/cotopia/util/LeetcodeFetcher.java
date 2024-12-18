@@ -2,27 +2,26 @@ package com.ampersandor.cotopia.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 import java.util.TreeMap;
 
-
-
+@Component("leetcodeFetcher")
+@RequiredArgsConstructor
 public class LeetcodeFetcher implements CodingPlatformFetcher {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public LeetcodeFetcher(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @Override
     public StatResponse fetchStat(String username) {

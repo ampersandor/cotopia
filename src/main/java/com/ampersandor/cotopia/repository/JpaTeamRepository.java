@@ -7,13 +7,16 @@ import java.util.Optional;
 
 import com.ampersandor.cotopia.entity.Team;
 
+import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
+
+@Repository
+@RequiredArgsConstructor
 public class JpaTeamRepository implements TeamRepository {
 
     private final EntityManager em;
 
-    public JpaTeamRepository(EntityManager em) {
-        this.em = em;
-    }
 
     @Override
     public Team save(Team team) {

@@ -3,24 +3,34 @@ package com.ampersandor.cotopia.service;
 import com.ampersandor.cotopia.entity.CodingAccount;
 import com.ampersandor.cotopia.entity.Stat;
 import com.ampersandor.cotopia.repository.CodingAccountRepository;
-import com.ampersandor.cotopia.repository.StatRepository;
 import com.ampersandor.cotopia.util.CodingPlatformFetcher;
 import com.ampersandor.cotopia.util.StatResponse;
+
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class StatScheduler {
 
     private final CodingAccountRepository codingAccountRepository;
     private final StatService statService;
     private final Map<String, CodingPlatformFetcher> fetchers;
+
+    @PostConstruct
+    public void init() {
+        log.info("Initialized StatScheduler with fetchers: {}", fetchers.keySet());
+    }
+
 
     @Scheduled(fixedRate = 600000) // Run every 1 minute
     public void updateStat() {

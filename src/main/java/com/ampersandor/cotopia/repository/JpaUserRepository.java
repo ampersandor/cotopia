@@ -6,13 +6,15 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
+
+@Repository
+@RequiredArgsConstructor
 public class JpaUserRepository implements UserRepository {
 
     private final EntityManager em;
-
-    public JpaUserRepository(EntityManager em) {    
-        this.em = em;
-    }
 
     @Override
     public User save(User user) {

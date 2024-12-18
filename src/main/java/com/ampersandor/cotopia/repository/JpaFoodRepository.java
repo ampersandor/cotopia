@@ -9,14 +9,16 @@ import java.time.LocalDate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
+import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
+
+@Repository
+@RequiredArgsConstructor
 public class JpaFoodRepository implements FoodRepository {
 
     private final EntityManager em;
 
-    public JpaFoodRepository(EntityManager em) {
-        this.em = em;
-    }
-   
     @Override
     public Food save(Food food) {
         em.persist(food);

@@ -7,7 +7,9 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 
+@Service
 @Transactional
 public class StatServiceImpl implements StatService {
     private final StatRepository statRepository;

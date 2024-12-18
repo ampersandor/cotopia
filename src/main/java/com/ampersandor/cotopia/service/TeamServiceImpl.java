@@ -8,11 +8,13 @@ import com.ampersandor.cotopia.entity.User;
 import com.ampersandor.cotopia.repository.TeamRepository;
 import com.ampersandor.cotopia.repository.UserRepository;
 
-
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @Transactional
+@Service
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;

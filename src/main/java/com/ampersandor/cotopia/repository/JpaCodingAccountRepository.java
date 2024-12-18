@@ -3,13 +3,16 @@ package com.ampersandor.cotopia.repository;
 import jakarta.persistence.EntityManager;
 import com.ampersandor.cotopia.entity.CodingAccount;        
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
+@Repository
+@RequiredArgsConstructor
 public class JpaCodingAccountRepository implements CodingAccountRepository {
 
     private final EntityManager em;
 
-    public JpaCodingAccountRepository(EntityManager em) {
-        this.em = em;
-    }
 
     @Override
     public List<CodingAccount> findByUserId(Long userId) {

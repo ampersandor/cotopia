@@ -6,13 +6,15 @@ import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
+
+@Repository
+@RequiredArgsConstructor
 public class JpaStatRepository implements StatRepository{
 
     private final EntityManager em;
-
-    public JpaStatRepository(EntityManager em) {
-        this.em = em;
-    }
 
     @Override
     public Stat save(Stat stat) {

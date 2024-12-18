@@ -6,7 +6,10 @@ import com.ampersandor.cotopia.repository.CodingAccountRepository;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
+
+@Service
 public class CodingAccountServiceImpl implements CodingAccountService {
 
     private final CodingAccountRepository codingAccountRepository;

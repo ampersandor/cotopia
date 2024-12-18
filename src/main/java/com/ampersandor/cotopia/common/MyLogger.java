@@ -2,6 +2,8 @@ package com.ampersandor.cotopia.common;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -15,8 +17,9 @@ public class MyLogger {
     private String uuid;
     private String requestURL;
 
-    public void setRequestURL(String requestURL) {
-        this.requestURL = requestURL;
+    public void setRequestURL(HttpServletRequest request) {
+        this.requestURL = request.getRequestURL().toString();
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public void log(String message) {

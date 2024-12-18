@@ -1,13 +1,11 @@
 package com.ampersandor.cotopia.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ampersandor.cotopia.entity.User;
 
 import lombok.*;
-import jakarta.validation.constraints.NotBlank;
 
 
 public class UserDTO {

@@ -5,7 +5,6 @@ import com.ampersandor.cotopia.dto.StatDTO;
 import com.ampersandor.cotopia.entity.Stat;
 import com.ampersandor.cotopia.service.StatService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class StatController {
 
     private final StatService statService;
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<StatDTO.Response>> getStatsByUserBetween(
@@ -30,9 +29,8 @@ public class StatController {
             @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
             HttpServletRequest request) {
-        MyLogger myLogger = myLoggerProvider.getObject();
-        myLogger.setRequestURL(request.getRequestURI());
 
+        myLogger.log("getStatsByUserBetween started");
         List<Stat> stats = statService.getStatsByUserBetween(userId, from, to);
         List<StatDTO.Response> statDTOs = stats.stream()
                 .map(StatDTO.Response::from)
@@ -45,11 +43,9 @@ public class StatController {
     public ResponseEntity<List<StatDTO.Response>> getStatsByTeamBetween(
             @PathVariable("teamId") Long teamId,
             @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-            HttpServletRequest request) {
-        MyLogger myLogger = myLoggerProvider.getObject();
-        myLogger.setRequestURL(request.getRequestURI());
-        
+            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+
+        myLogger.log("getStatsByTeamBetween started");
         List<Stat> stats = statService.getStatsByTeamBetween(teamId, from, to);
         List<StatDTO.Response> statDTOs = stats.stream()
                 .map(StatDTO.Response::from)

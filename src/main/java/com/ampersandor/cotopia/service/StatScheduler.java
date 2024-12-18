@@ -25,17 +25,14 @@ public class StatScheduler {
     private final CodingAccountRepository codingAccountRepository;
     private final StatService statService;
     private final Map<String, CodingPlatformFetcher> fetchers;
-
+    
     @PostConstruct
     public void init() {
         log.info("Initialized StatScheduler with fetchers: {}", fetchers.keySet());
     }
 
-
     @Scheduled(fixedRate = 600000) // Run every 1 minute
     public void updateStat() {
-        System.out.println("Update Stat!!");
-        System.out.println("fetchers = " + fetchers);
         List<CodingAccount> codingAccounts = codingAccountRepository.findAll();
         for (CodingAccount codingAccount : codingAccounts) {
             LocalDate today = LocalDate.now();

@@ -3,7 +3,7 @@ package com.ampersandor.cotopia.util;
 import java.util.Collections;
 
 import org.springframework.stereotype.Component;
-@Component("acmicpcFetcher")
+@Component("acmicpc")
 public class AcmicpcFetcher implements CodingPlatformFetcher {
     
     @Override
@@ -11,5 +11,10 @@ public class AcmicpcFetcher implements CodingPlatformFetcher {
         return new StatResponse("200", "temp", 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
                 0, 0, Collections.emptyMap());
+    }
+
+    @Override
+    public String getPlatform() {  // 플랫폼 식별자 추가
+        return "acmicpc";
     }
 }

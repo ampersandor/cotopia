@@ -6,19 +6,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import com.ampersandor.cotopia.util.CodingPlatformFetcher;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 
 @Configuration
 public class FetcherConfig {
     @Bean
     public Map<String, CodingPlatformFetcher> codingPlatformFetchers(
-        @Qualifier("leetcodeFetcher") CodingPlatformFetcher leetcodeFetcher,
-        @Qualifier("acmicpcFetcher") CodingPlatformFetcher acmicpcFetcher
+        List<CodingPlatformFetcher> fetchers
     ) {
-        return Map.of(
-            "leetcode", leetcodeFetcher,
-            "acmicpc", acmicpcFetcher
-        );
+        return fetchers.stream()
+            .collect(Collectors.toMap(
+                CodingPlatformFetcher::getPlatform,
+                fetcher -> fetcher
+            ));
     }
     @Bean
     public RestTemplate restTemplate() {

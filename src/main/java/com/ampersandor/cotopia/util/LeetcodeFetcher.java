@@ -17,11 +17,11 @@ import java.math.RoundingMode;
 import java.util.Map;
 import java.util.TreeMap;
 
-@Component("leetcodeFetcher")
+@Component("leetcode")
 @RequiredArgsConstructor
 public class LeetcodeFetcher implements CodingPlatformFetcher {
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     @Override
     public StatResponse fetchStat(String username) {
@@ -132,5 +132,9 @@ public class LeetcodeFetcher implements CodingPlatformFetcher {
         BigDecimal bd = new BigDecimal(Float.toString(d));
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.floatValue();
+    }
+    @Override
+    public String getPlatform() {  // 플랫폼 식별자 추가
+        return "leetcode";
     }
 }

@@ -34,6 +34,11 @@ public class StatScheduler {
     @Scheduled(fixedRate = 600000) // Run every 1 minute
     public void updateStat() {
         List<CodingAccount> codingAccounts = codingAccountRepository.findAll();
+        if (codingAccounts == null || codingAccounts.isEmpty()) {
+            log.info("No coding accounts found");
+            return;
+        }
+        log.info("start update stat");
         for (CodingAccount codingAccount : codingAccounts) {
             LocalDate today = LocalDate.now();
             if (statService.existsByAccountIdAndDate(codingAccount.getId(), today)) continue;
@@ -55,5 +60,6 @@ public class StatScheduler {
                     .build();
             statService.save(stat);
         }
+        log.info("end update stat");
     }
 }

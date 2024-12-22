@@ -99,4 +99,13 @@ public class LunchServiceImpl implements LunchService {
     public List<Lunch> getLunchesByTeamId(Long teamId, LocalDate date) {
         return lunchRepository.findByTeamIdAndCreatedAtDate(teamId, date);
     }
+
+    @Override
+    @Transactional
+    public Lunch createLunch(Lunch lunch) {
+        log.info("Creating new lunch for team: {}, food: {}", 
+                lunch.getTeam().getId(), 
+                lunch.getFood().getId());
+        return lunchRepository.save(lunch);
+    }
 }

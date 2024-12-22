@@ -47,7 +47,10 @@ public class JpaLunchRepository implements LunchRepository {
     @Override
     public List<Lunch> findByTeamIdAndCreatedAtDate(Long teamId, LocalDate date) {
         return em.createQuery(
-                "SELECT l FROM Lunch l WHERE l.team.id = :teamId AND l.date = :date", Lunch.class)
+                "SELECT l FROM Lunch l " +
+                "JOIN FETCH l.food f " +
+                "WHERE l.team.id = :teamId " +
+                "AND CAST(l.createdAt AS LocalDate) = :date", Lunch.class)
                 .setParameter("teamId", teamId)
                 .setParameter("date", date)
                 .getResultList();

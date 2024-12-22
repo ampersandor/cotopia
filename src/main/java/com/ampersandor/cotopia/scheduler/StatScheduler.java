@@ -1,8 +1,9 @@
-package com.ampersandor.cotopia.service;
+package com.ampersandor.cotopia.scheduler;
 
 import com.ampersandor.cotopia.entity.CodingAccount;
 import com.ampersandor.cotopia.entity.Stat;
 import com.ampersandor.cotopia.repository.CodingAccountRepository;
+import com.ampersandor.cotopia.service.StatService;
 import com.ampersandor.cotopia.util.CodingPlatformFetcher;
 import com.ampersandor.cotopia.util.StatResponse;
 

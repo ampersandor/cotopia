@@ -23,7 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @Component
 @RequiredArgsConstructor
 public class LunchWebSocketHandler extends TextWebSocketHandler {
-    
+
     private final LunchService lunchService;
     private final ObjectMapper objectMapper;
 
@@ -32,29 +32,29 @@ public class LunchWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(@NonNull WebSocketSession session) {
         if (session.getUri() == null) return;
-        
+
         String query = session.getUri().getQuery();
         Long teamId = extractTeamId(query);
-        
+
         teamSessions.computeIfAbsent(teamId, k -> ConcurrentHashMap.newKeySet()).add(session);
     }
-    
+
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, @NonNull TextMessage message) {
         String payload = message.getPayload();
         log.info("Received message: " + payload);
-        
+
         try {
             LunchDTO.LikeRequest likeRequest = objectMapper.readValue(payload, LunchDTO.LikeRequest.class);
             lunchService.addLikeCount(likeRequest.getLunchId(), likeRequest.getLikeCount());
-            
+
         } catch (IOException e) {
             log.error("Error parsing message: " + e.getMessage());
         } catch (Exception e) {
             log.error("Error handleTextMessage: " + e.getMessage());
         }
     }
-    
+
     @Override
     public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) {
         if (session.getUri() == null) return;
@@ -68,7 +68,7 @@ public class LunchWebSocketHandler extends TextWebSocketHandler {
             }
         }
     }
-    
+
     public void broadcastToTeam(Long teamId, String message) {
         Set<WebSocketSession> sessions = this.teamSessions.get(teamId);
         if (sessions != null) {
@@ -83,15 +83,15 @@ public class LunchWebSocketHandler extends TextWebSocketHandler {
             });
         }
     }
-    
+
     @EventListener
     public void handleLikeUpdateEvent(LikeUpdateEvent event) {
         log.info("Handling like update event: " + event.toJson(objectMapper));
         event.getUpdates().forEach((teamId, updateInfo) -> {
             try {
                 String message = objectMapper.writeValueAsString(Map.of(
-                    "type", "LIKE_UPDATE",
-                    "updates", updateInfo.getLunchLikes()
+                        "type", "LIKE_UPDATE",
+                        "updates", updateInfo.getLunchLikes()
                 ));
                 broadcastToTeam(teamId, message);
             } catch (JsonProcessingException e) {
@@ -112,4 +112,7 @@ public class LunchWebSocketHandler extends TextWebSocketHandler {
         }
         throw new IllegalArgumentException("teamId is required");
     }
-} 
+}
+
+///
+///

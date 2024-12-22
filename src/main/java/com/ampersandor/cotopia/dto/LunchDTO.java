@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import com.ampersandor.cotopia.entity.Lunch;
 import com.ampersandor.cotopia.entity.Team;
-import java.time.LocalDate;
+import com.ampersandor.cotopia.entity.Food;
+import java.time.LocalDateTime;
 
 public class LunchDTO {
 
@@ -18,17 +19,23 @@ public class LunchDTO {
     public static class Response {
         private Long id;
         private Long teamId;
-        private String name;
+        private Long foodId;
+        private String foodName;
+        private String foodImgSrc;
         private int likeCount;
+        private LocalDateTime createdAt;
+
         public static Response from(Lunch lunch) {
             return Response.builder()
                     .id(lunch.getId())
                     .teamId(lunch.getTeam().getId())
-                    .name(lunch.getName())
+                    .foodId(lunch.getFood().getId())
+                    .foodName(lunch.getFood().getName())
+                    .foodImgSrc(lunch.getFood().getImgSrc())
                     .likeCount(lunch.getLikeCount())
+                    .createdAt(lunch.getCreatedAt())
                     .build();
         }
-
     }
 
     @Getter
@@ -51,26 +58,22 @@ public class LunchDTO {
         private int likeCount;
     }
 
-
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class Request {
         private Long teamId;
-        private String name;
+        private Long foodId;
         private int likeCount;
-        private LocalDate date;
 
         public Lunch toEntity() {
             return Lunch.builder()
                     .team(Team.builder().id(teamId).build())
-                    .name(name)
+                    .food(Food.builder().id(foodId).build())
                     .likeCount(likeCount)
-                    .date(date)
+                    .createdAt(LocalDateTime.now())
                     .build();
         }
     }
-
-
 }

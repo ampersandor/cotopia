@@ -1,7 +1,10 @@
 package com.ampersandor.cotopia.service;
 
 import com.ampersandor.cotopia.entity.Lunch;
+import com.ampersandor.cotopia.entity.Team;
+import com.ampersandor.cotopia.entity.Food;
 import com.ampersandor.cotopia.repository.LunchRepository;
+import com.ampersandor.cotopia.repository.TeamRepository;
 import com.ampersandor.cotopia.event.LikeUpdateEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Map;
 import java.util.Set;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -31,6 +35,8 @@ public class LunchServiceImpl implements LunchService {
     private final LunchRepository lunchRepository;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ApplicationEventPublisher eventPublisher;
+    private final FoodService foodService;
+    private final TeamRepository teamRepository;
 
     @Override
     public void addLikeCount(Long lunchId, int amount) {
@@ -107,5 +113,41 @@ public class LunchServiceImpl implements LunchService {
                 lunch.getTeam().getId(), 
                 lunch.getFood().getId());
         return lunchRepository.save(lunch);
+    }
+
+    @Override
+    @Transactional
+    public void createLunchesForAllTeams() {
+        List<Team> teams = teamRepository.findAll();
+        for (Team team : teams) {
+            createLunchesForTeam(team);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void createLunchesForTeam(Team team) {
+        LocalDate today = LocalDate.now();
+        List<Lunch> existingLunches = getLunchesByTeamId(team.getId(), today);
+
+        if (!existingLunches.isEmpty()) {
+            log.info("Lunches already exist for team {} on date {}", team.getName(), today);
+            return;
+        }
+
+        List<Food> randomFoods = foodService.getRandomFoods(5);
+
+        for (Food food : randomFoods) {
+            Lunch lunch = Lunch.builder()
+                    .team(team)
+                    .food(food)
+                    .likeCount(0)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            lunchRepository.save(lunch);
+        }
+
+        log.info("Created {} lunches for team: {}", randomFoods.size(), team.getName());
     }
 }

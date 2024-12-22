@@ -56,8 +56,11 @@ public class TeamController {
         Long userId = authService.getUserIdFromToken(token);
         Team savedTeam = teamService.createTeam(teamRequest.toEntity(userId));
         userService.updateTeamId(userId, savedTeam.getId());
-        myLogger.log("createTeam finished");
 
+        // 새 팀에 대한 Lunch 생성
+        lunchService.createLunchesForTeam(savedTeam);
+
+        myLogger.log("createTeam finished");
         return ResponseEntity.ok(TeamDTO.Response.from(savedTeam));
     }
 

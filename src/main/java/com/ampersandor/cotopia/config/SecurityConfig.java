@@ -39,7 +39,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/users/**").permitAll()
                     .requestMatchers("/api/v1/stats/**").permitAll()
                     .requestMatchers("/api/v1/teams/**").permitAll()
-                    .requestMatchers("/api/v1/foods/**").permitAll()
+                    .requestMatchers("/api/v1/lunches/**").permitAll()
                     .requestMatchers("/api/v1/coding-accounts/**").permitAll()
                     .requestMatchers("/ws/**", "/topic/**", "/app/**", "/websocket/**").permitAll()
                     .anyRequest().authenticated())

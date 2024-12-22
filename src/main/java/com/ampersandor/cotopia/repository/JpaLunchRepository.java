@@ -1,6 +1,6 @@
 package com.ampersandor.cotopia.repository;
 
-import com.ampersandor.cotopia.entity.Food;
+import com.ampersandor.cotopia.entity.Lunch;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,27 +15,27 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class JpaFoodRepository implements FoodRepository {
+public class JpaLunchRepository implements LunchRepository {
 
     private final EntityManager em;
 
     @Override
-    public Food save(Food food) {
-        em.persist(food);
-        return food;
+    public Lunch save(Lunch lunch) {
+        em.persist(lunch);
+        return lunch;
     }
 
     @Override
     public void deleteById(Long id) {
-        em.remove(em.find(Food.class, id));
+        em.remove(em.find(Lunch.class, id));
     }
 
     @Override
-    public Optional<Food> findById(Long id) {
+    public Optional<Lunch> findById(Long id) {
         try {
-            Food result = em.createQuery(
-                            "SELECT f FROM Food f WHERE f.id = :id",
-                            Food.class)
+            Lunch result = em.createQuery(
+                            "SELECT l FROM Lunch l WHERE l.id = :id",
+                            Lunch.class)
                     .setParameter("id", id)
                     .getSingleResult();
             return Optional.of(result);
@@ -45,18 +45,18 @@ public class JpaFoodRepository implements FoodRepository {
     }
 
     @Override
-    public List<Food> findByTeamIdAndCreatedAtDate(Long teamId, LocalDate date) {
+    public List<Lunch> findByTeamIdAndCreatedAtDate(Long teamId, LocalDate date) {
         return em.createQuery(
-                "SELECT f FROM Food f WHERE f.team.id = :teamId AND f.date = :date", Food.class)
+                "SELECT l FROM Lunch l WHERE l.team.id = :teamId AND l.date = :date", Lunch.class)
                 .setParameter("teamId", teamId)
                 .setParameter("date", date)
                 .getResultList();
     }
 
     @Override
-    public void addLikeCount(Long foodId, int likeCount) {
-        Food food = em.find(Food.class, foodId);
-        food.setLikeCount(food.getLikeCount() + likeCount);
-        em.merge(food);
+    public void addLikeCount(Long lunchId, int likeCount) {
+        Lunch lunch = em.find(Lunch.class, lunchId);
+        lunch.setLikeCount(lunch.getLikeCount() + likeCount);
+        em.merge(lunch);
     }
 }

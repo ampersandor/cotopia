@@ -11,7 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Food {
+@Table(name = "lunches")
+public class Lunch {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

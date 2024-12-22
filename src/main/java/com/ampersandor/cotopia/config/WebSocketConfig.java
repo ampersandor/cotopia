@@ -6,8 +6,8 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import com.ampersandor.cotopia.handler.FoodWebSocketHandler;
-import com.ampersandor.cotopia.service.FoodService;
+import com.ampersandor.cotopia.handler.LunchWebSocketHandler;
+import com.ampersandor.cotopia.service.LunchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.lang.NonNull;
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
     
-    private final FoodService foodService;
+    private final LunchService lunchService;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -29,6 +29,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler webSocketHandler() {
-        return new FoodWebSocketHandler(foodService, objectMapper);
+        return new LunchWebSocketHandler(lunchService, objectMapper);
     }
 }

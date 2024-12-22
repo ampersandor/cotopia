@@ -5,11 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import com.ampersandor.cotopia.entity.Food;
+import com.ampersandor.cotopia.entity.Lunch;
 import com.ampersandor.cotopia.entity.Team;
 import java.time.LocalDate;
 
-public class FoodDTO {
+public class LunchDTO {
 
     @Getter
     @NoArgsConstructor
@@ -20,12 +20,12 @@ public class FoodDTO {
         private Long teamId;
         private String name;
         private int likeCount;
-        public static Response from(Food food) {
+        public static Response from(Lunch lunch) {
             return Response.builder()
-                    .id(food.getId())
-                    .teamId(food.getTeam().getId())
-                    .name(food.getName())
-                    .likeCount(food.getLikeCount())
+                    .id(lunch.getId())
+                    .teamId(lunch.getTeam().getId())
+                    .name(lunch.getName())
+                    .likeCount(lunch.getLikeCount())
                     .build();
         }
 
@@ -37,7 +37,7 @@ public class FoodDTO {
     @Builder
     @ToString
     public static class LikeResponse {
-        private Long foodId;
+        private Long lunchId;
         private int likeCount;
     }
 
@@ -46,7 +46,7 @@ public class FoodDTO {
     @AllArgsConstructor
     @Builder
     public static class LikeRequest {
-        private Long foodId;
+        private Long lunchId;
         private Long teamId;
         private int likeCount;
     }
@@ -62,8 +62,8 @@ public class FoodDTO {
         private int likeCount;
         private LocalDate date;
 
-        public Food toEntity() {
-            return Food.builder()
+        public Lunch toEntity() {
+            return Lunch.builder()
                     .team(Team.builder().id(teamId).build())
                     .name(name)
                     .likeCount(likeCount)

@@ -34,5 +34,14 @@ public class Team {
     
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<Food> foods = new ArrayList<>();
+    private List<Lunch> lunches = new ArrayList<>();
+
+    public void addLunch(Lunch lunch) {
+        lunches.add(lunch);
+        lunch.setTeam(this);
+    }
+
+    public void addLunches(List<Lunch> lunches) {
+        lunches.forEach(this::addLunch);
+    }
 }

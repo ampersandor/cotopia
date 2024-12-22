@@ -1,7 +1,7 @@
 package com.ampersandor.cotopia.handler;
 
 import com.ampersandor.cotopia.event.LikeUpdateEvent;
-import com.ampersandor.cotopia.service.FoodService;
+import com.ampersandor.cotopia.service.LunchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.lang.NonNull;
 import java.io.IOException;
 import java.util.Set;   
 import java.util.concurrent.ConcurrentHashMap;
-import com.ampersandor.cotopia.dto.FoodDTO;
+import com.ampersandor.cotopia.dto.LunchDTO;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +22,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FoodWebSocketHandler extends TextWebSocketHandler {
+public class LunchWebSocketHandler extends TextWebSocketHandler {
     
-    private final FoodService foodService;
+    private final LunchService lunchService;
     private final ObjectMapper objectMapper;
 
     private final Map<Long, Set<WebSocketSession>> teamSessions = new ConcurrentHashMap<>();
@@ -45,8 +45,8 @@ public class FoodWebSocketHandler extends TextWebSocketHandler {
         log.info("Received message: " + payload);
         
         try {
-            FoodDTO.LikeRequest likeRequest = objectMapper.readValue(payload, FoodDTO.LikeRequest.class);            
-            foodService.addLikeCount(likeRequest.getFoodId(), likeRequest.getLikeCount());
+            LunchDTO.LikeRequest likeRequest = objectMapper.readValue(payload, LunchDTO.LikeRequest.class);
+            lunchService.addLikeCount(likeRequest.getLunchId(), likeRequest.getLikeCount());
             
         } catch (IOException e) {
             log.error("Error parsing message: " + e.getMessage());
@@ -91,7 +91,7 @@ public class FoodWebSocketHandler extends TextWebSocketHandler {
             try {
                 String message = objectMapper.writeValueAsString(Map.of(
                     "type", "LIKE_UPDATE",
-                    "updates", updateInfo.getFoodLikes()
+                    "updates", updateInfo.getLunchLikes()
                 ));
                 broadcastToTeam(teamId, message);
             } catch (JsonProcessingException e) {

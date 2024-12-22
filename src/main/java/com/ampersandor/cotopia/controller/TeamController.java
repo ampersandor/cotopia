@@ -2,13 +2,13 @@ package com.ampersandor.cotopia.controller;
 
 import com.ampersandor.cotopia.common.MyLogger;
 import com.ampersandor.cotopia.dto.TeamDTO;
-import com.ampersandor.cotopia.dto.FoodDTO;
+import com.ampersandor.cotopia.dto.LunchDTO;
 import com.ampersandor.cotopia.entity.Team;
-import com.ampersandor.cotopia.entity.Food;
+import com.ampersandor.cotopia.entity.Lunch;
 import com.ampersandor.cotopia.service.TeamService;
 import com.ampersandor.cotopia.service.UserService;
 import com.ampersandor.cotopia.service.AuthService;
-import com.ampersandor.cotopia.service.FoodService;
+import com.ampersandor.cotopia.service.LunchService;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import java.util.List;
@@ -28,7 +28,7 @@ public class TeamController {
     private final TeamService teamService;
     private final UserService userService;
     private final AuthService authService;
-    private final FoodService foodService;
+    private final LunchService lunchService;
     private final MyLogger myLogger;
 
     @GetMapping("")
@@ -100,12 +100,12 @@ public class TeamController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{teamId}/foods")
-    public ResponseEntity<List<FoodDTO.Response>> getFoodsByTeamId(@PathVariable("teamId") Long teamId) {
-        myLogger.log("getFoodsByTeamId started");
-        List<Food> foods = foodService.getFoodsByTeamId(teamId, LocalDate.now());
-        myLogger.log("getFoodsByTeamId finished");
-        return ResponseEntity.ok(foods.stream().map(FoodDTO.Response::from).collect(Collectors.toList()));
+    @GetMapping("/{teamId}/lunches")
+    public ResponseEntity<List<LunchDTO.Response>> getLunchesByTeamId(@PathVariable("teamId") Long teamId) {
+        myLogger.log("getLunchesByTeamId started");
+        List<Lunch> lunches = lunchService.getLunchesByTeamId(teamId, LocalDate.now());
+        myLogger.log("getLunchesByTeamId finished");
+        return ResponseEntity.ok(lunches.stream().map(LunchDTO.Response::from).collect(Collectors.toList()));
     }
 
 

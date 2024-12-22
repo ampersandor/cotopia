@@ -27,6 +27,6 @@ public class LikeUpdateEvent extends ApplicationEvent {
     @Getter
     @AllArgsConstructor
     public static class LikeUpdateInfo {
-        private final Map<Long, Integer> foodLikes;
+        private final Map<Long, Integer> lunchLikes;
     }
 } 

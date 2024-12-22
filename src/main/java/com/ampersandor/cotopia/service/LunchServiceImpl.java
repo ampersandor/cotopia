@@ -1,7 +1,7 @@
 package com.ampersandor.cotopia.service;
 
-import com.ampersandor.cotopia.entity.Food;
-import com.ampersandor.cotopia.repository.FoodRepository;
+import com.ampersandor.cotopia.entity.Lunch;
+import com.ampersandor.cotopia.repository.LunchRepository;
 import com.ampersandor.cotopia.event.LikeUpdateEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -24,21 +24,21 @@ import jakarta.persistence.EntityNotFoundException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FoodServiceImpl implements FoodService {
+public class LunchServiceImpl implements LunchService {
     
-    private static final String PENDING_LIKES_KEY = "pending_likes:food:";
+    private static final String PENDING_LIKES_KEY = "pending_likes:lunch:";
     
-    private final FoodRepository foodRepository;
+    private final LunchRepository lunchRepository;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public void addLikeCount(Long foodId, int amount) {
-        log.info("Adding like count: " + foodId + " " + amount);
+    public void addLikeCount(Long lunchId, int amount) {
+        log.info("Adding like count: " + lunchId + " " + amount);
         HashOperations<String, String, Integer> hashOps = redisTemplate.opsForHash();
-        String key = PENDING_LIKES_KEY + foodId;
-        hashOps.increment(key, foodId.toString(), amount);
-        log.info("Added like count: " + foodId + " " + amount);
+        String key = PENDING_LIKES_KEY + lunchId;
+        hashOps.increment(key, lunchId.toString(), amount);
+        log.info("Added like count: " + lunchId + " " + amount);
     }
 
     @Scheduled(fixedRate = 500)
@@ -61,21 +61,21 @@ public class FoodServiceImpl implements FoodService {
                 continue;
             }
             
-            pendingLikes.forEach((foodId, count) -> {
+            pendingLikes.forEach((lunchId, count) -> {
                 try {
-                    Long foodIdLong = Long.valueOf(foodId);
-                    Food food = foodRepository.findById(foodIdLong)
-                        .orElseThrow(() -> new EntityNotFoundException("Food not found with id: " + foodIdLong));
+                    Long lunchIdLong = Long.valueOf(lunchId);
+                    Lunch lunch = lunchRepository.findById(lunchIdLong)
+                        .orElseThrow(() -> new EntityNotFoundException("Lunch not found with id: " + lunchIdLong));
                     
-                    food.setLikeCount(food.getLikeCount() + count);
-                    foodRepository.save(food);
+                    lunch.setLikeCount(lunch.getLikeCount() + count);
+                    lunchRepository.save(lunch);
                     
-                    Long teamId = food.getTeam().getId();
+                    Long teamId = lunch.getTeam().getId();
                     teamUpdates.computeIfAbsent(teamId, k -> new HashMap<>())
-                        .put(foodIdLong, food.getLikeCount());
+                        .put(lunchIdLong, lunch.getLikeCount());
                     
                 } catch (NumberFormatException e) {
-                    log.error("Invalid food ID format: {}", foodId);
+                    log.error("Invalid lunch ID format: {}", lunchId);
                 }
             });
 
@@ -96,7 +96,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Food> getFoodsByTeamId(Long teamId, LocalDate date) {
-        return foodRepository.findByTeamIdAndCreatedAtDate(teamId, date);
+    public List<Lunch> getLunchesByTeamId(Long teamId, LocalDate date) {
+        return lunchRepository.findByTeamIdAndCreatedAtDate(teamId, date);
     }
 }

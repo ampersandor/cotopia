@@ -26,7 +26,7 @@ public class LunchScheduler {
     private final LunchService lunchService;
     
     @Transactional
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 9 * * *", zone = "Asia/Seoul")
     public void createDailyLunches() {
         log.info("Starting lunch creation check...");
         

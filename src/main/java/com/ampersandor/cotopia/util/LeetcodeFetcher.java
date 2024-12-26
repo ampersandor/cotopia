@@ -22,10 +22,11 @@ import java.util.TreeMap;
 public class LeetcodeFetcher implements CodingPlatformFetcher {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private static final String LEETCODE_URL = "https://leetcode.com/graphql/";
 
     @Override
     public StatResponse fetchStat(String username) {
-        String url = "https://leetcode.com/graphql/";
+        String url = LEETCODE_URL;
 
         HttpEntity<String> entity = getStringHttpEntity(username);
 

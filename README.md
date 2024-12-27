@@ -61,9 +61,11 @@ java -jar build/libs/cotopia-0.0.1-SNAPSHOT.jar
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 
 ## 🌟 주요 화면
-| 메인 대시보드 | 팀 랭킹 | Lunch Battle |
-|:---:|:---:|:---:|
-|[이미지]|[이미지]|<img src="https://github.com/user-attachments/assets/e08c58af-7ab1-4164-a711-7a51fdd5947a" alt="cotopia" width="600">|
+| Screen | Image |
+|:---:|:---:|
+| Team Interaction | <img src=https://github.com/user-attachments/assets/5a8c6cd8-28bc-409b-921f-d0f578d8ca58 alt="teamInteraction" width="600"/>|
+| Algo Stat | <img src="https://github.com/user-attachments/assets/6f5a782c-6798-45d0-8320-045b26089ade" alt="algostat" width="600"/>|
+| Lunch Battle |<img src="https://github.com/user-attachments/assets/e08c58af-7ab1-4164-a711-7a51fdd5947a" alt="cotopia" width="600"/>|
 
 ## 🤝 기여하기
 프로젝트에 기여하고 싶으시다면:

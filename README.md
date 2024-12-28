@@ -76,19 +76,27 @@ java -jar build/libs/cotopia-0.0.1-SNAPSHOT.jar
 5. Pull Request를 생성하세요
 
 ## 🧾 TODO List
+
+### Milestone 1
 ✅ 기본 회원가입 / 로그인 기능 추가  
-⬜ Google OAuth 2.0 연동  
-⬜ Kakao OAuth 2.0 연동  
 ✅ LeetCode API 연동  
-✅ 백준(solved.ac) API 연동  
-⬜ 프로그래머스 API 연동  
 ✅ 팀 생성, 가입, 탈뇌 기능 추가  
 ✅ 팀 내 문제 풀이 현황 추적 기능 추가  
 ✅ 팀 내 점심메뉴 결정 게임 추가  
+
+### Milestone 2
+✅ 백준(solved.ac) API 연동  
+⬜ Google OAuth 2.0 연동  
+⬜ Kakao OAuth 2.0 연동  
+⬜ 프로그래머스 API 연동  
 ⬜ 팀 가입 요청, 수락 거절 기능 추가  
+ 
+
+### Milestone 3
+⬜ 팀 내 오늘의 추천 문제 기능 추가  
+⬜ 응원 및 격려 Push 알림 기능 추가  
 ⬜ 팀 채팅 기능 추가 (Metabus)  
 ⬜ 문제 풀이 Discussion 기능 추가  
-⬜ 팀 내 오늘의 추천 문제 기능 추가  
 ⬜ 개인 별 문제 기록 페이지 (테이블 및 캘린더) 추가  
 
 

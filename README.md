@@ -30,7 +30,7 @@ Cotopia는 알고리즘 문제 풀이 현황을 자동으로 추적하고, 팀 �
 - Java 17
 - Spring Boot 3.3.4
 - PostgreSQL
-- WebSocket (실시간 투표 시스템)
+- WebSocket (실시간 투표 시���템)
 - Redis (실시간 투표 시스템)
 
 ### Infrastructure
@@ -74,6 +74,25 @@ java -jar build/libs/cotopia-0.0.1-SNAPSHOT.jar
 3. 변경사항을 Commit 하세요 (`git commit -m 'Add amazing feature'`)
 4. Branch에 Push 하세요 (`git push origin feature/amazing-feature`)
 5. Pull Request를 생성하세요
+
+## 🧾 TODO List
+✅ 기본 회원가입 / 로그인 기능 추가  
+⬜ Google OAuth 2.0 연동  
+⬜ Kakao OAuth 2.0 연동  
+✅ LeetCode API 연동  
+✅ 백준(solved.ac) API 연동  
+⬜ 프로그래머스 API 연동  
+✅ 팀 생성, 가입, 탈뇌 기능 추가  
+✅ 팀 내 문제 풀이 현황 추적 기능 추가  
+✅ 팀 내 점심메뉴 결정 게임 추가  
+⬜ 팀 가입 요청, 수락 거절 기능 추가  
+⬜ 팀 채팅 기능 추가 (Metabus)  
+⬜ 문제 풀이 Discussion 기능 추가  
+⬜ 팀 내 오늘의 추천 문제 기능 추가  
+⬜ 개인 별 문제 기록 페이지 (테이블 및 캘린더) 추가  
+
+
+
 
 ## 📄 라이선스
 이 프로젝트는 MIT 라이선스를 따릅니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.

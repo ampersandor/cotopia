@@ -74,33 +74,20 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList(
             "GET", "POST", "PUT", "DELETE", "OPTIONS"
         ));
-        
         // 허용할 헤더
-        configuration.setAllowedHeaders(Arrays.asList(
-            "Authorization",
-            "Content-Type",
-            "X-Requested-With",
-            "Accept",
-            "Origin",
-            "Access-Control-Request-Method",
-            "Access-Control-Request-Headers"
-        ));
-        
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         // 인증 정보 허용
         configuration.setAllowCredentials(true);
-        
         // 노출할 헤더
-        configuration.setExposedHeaders(Arrays.asList(
-            "Access-Control-Allow-Origin",
-            "Access-Control-Allow-Credentials",
-            "Authorization"
-        ));
-        
+        // configuration.setExposedHeaders(Arrays.asList(
+        //     "Access-Control-Allow-Origin",
+        //     "Access-Control-Allow-Credentials",
+        //     "Authorization"
+        // ));
         // preflight 요청의 캐시 시간 (1시간)
         configuration.setMaxAge(3600L);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/api/**", configuration);
         return source;
     }
 }
